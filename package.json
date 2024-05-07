@@ -9,6 +9,7 @@
     "dev": "modern dev",
     "build": "modern build",
     "build:watch": "modern build -w",
+    "build:doc": "modern build --platform",
     "reset": "rimraf ./**/node_modules",
     "lint": "modern lint",
     "change": "modern change",
@@ -29,17 +30,25 @@
     "node_modules/",
     "dist/"
   ],
-  "dependencies": {},
-  "peerDependencies": {},
+  "peerDependencies": {
+    "react": "*",
+    "react-dom": "*"
+  },
   "devDependencies": {
-    "@modern-js/module-tools": "2.48.5",
+    "@arco-design/web-react": "^2.62.0",
     "@modern-js/eslint-config": "2.48.5",
-    "typescript": "~5.0.4",
-    "@types/node": "~16.11.7",
+    "@modern-js/module-tools": "2.48.5",
+    "@types/node": "~16.11.68",
+    "@types/react": "^17.0.80",
+    "@types/react-dom": "^17.0.25",
+    "husky": "~8.0.3",
+    "lint-staged": "~13.1.4",
+    "prettier": "~2.8.8",
+    "react": "^17.0.2",
+    "react-dom": "^17.0.2",
     "rimraf": "~3.0.2",
-    "lint-staged": "~13.1.0",
-    "prettier": "~2.8.1",
-    "husky": "~8.0.1"
+    "typescript": "~5.0.4",
+    "@modern-js/plugin-rspress": "1.19.2"
   },
   "sideEffects": [],
   "publishConfig": {

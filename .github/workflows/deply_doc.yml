@@ -1,4 +1,4 @@
-name: Deploy Doc site to Pages
+name: Deploy Doc
 
 on:
   # Runs on pushes targeting the default branch
@@ -28,13 +28,11 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
-        with:
-          node-version: '20'
-          cache: pnpm
       - name: Setup Pages
         uses: actions/configure-pages@v5
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
 
       - name: Install dependencies
         run: pnpm install

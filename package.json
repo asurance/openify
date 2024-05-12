@@ -52,8 +52,7 @@
   },
   "sideEffects": [],
   "publishConfig": {
-    "access": "public",
-    "registry": "https://registry.npmjs.org/"
+    "access": "public"
   },
   "packageManager": "pnpm@9.1.0"
 }

@@ -25,10 +25,17 @@ tests/
 
 src/
 
+.changeset
+.husky
+.vscode
+doc_build
+docs
 modern.config.*
 jest.config.js
+.eslintcache
 .eslintrc.js
 .eslintrc
+.prettierrc
 tsconfig.json
 CHANGELOG.md
 

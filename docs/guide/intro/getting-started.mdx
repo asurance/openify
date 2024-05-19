@@ -1,1 +1,55 @@
 # 快速上手
+
+## 安装
+
+```bash
+npm install @mx-space/api-client --save
+```
+
+## 开发自定义弹窗组件
+
+```tsx pure
+export type MyModalProps = {
+  visible: boolean;
+  onOk: () => void;
+  onCancel: () => void;
+  afterClose: () => void;
+};
+
+export default function MyModal({
+  visible,
+  onOk,
+  onCancel,
+  afterClose,
+}: MyModalProps) {
+  // your code here
+  return <Modal {/*** your props **/}>
+  {/*** your content here **/}</Modal>;
+}
+```
+
+## 使用 openify
+
+```tsx pure
+import { openify } from 'openify';
+
+openify(CustomModal);
+```
+
+## 使用 open 方法
+
+```tsx pure
+export default function MyApp() {
+  return (
+    <Button
+      onClick={() => {
+        CustomModal.open({
+          // your props
+        });
+      }}
+    >
+      打开弹窗
+    </Button>
+  );
+}
+```

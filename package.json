@@ -38,6 +38,7 @@
     "@arco-design/web-react": "^2.62.0",
     "@modern-js/eslint-config": "2.49.3",
     "@modern-js/module-tools": "2.49.3",
+    "@modern-js/plugin-rspress": "1.21.0",
     "@types/node": "~16.11.68",
     "@types/react": "^17.0.80",
     "@types/react-dom": "^17.0.25",
@@ -47,12 +48,11 @@
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
     "rimraf": "~3.0.2",
-    "typescript": "~5.0.4",
-    "@modern-js/plugin-rspress": "1.21.0"
+    "typescript": "~5.0.4"
   },
   "sideEffects": [],
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@9.1.0"
+  "packageManager": "pnpm@8.15.8"
 }

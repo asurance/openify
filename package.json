@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.62.0",
+    "@modern-js/core": "2.49.3",
     "@modern-js/eslint-config": "2.49.3",
     "@modern-js/module-tools": "2.49.3",
     "@modern-js/plugin-rspress": "1.21.0",
@@ -54,5 +55,5 @@
   "publishConfig": {
     "access": "public"
   },
-  "packageManager": "pnpm@8.15.8"
+  "packageManager": "pnpm@9.1.2"
 }

@@ -3,5 +3,12 @@
     "type": "dir",
     "name": "intro",
     "label": "介绍"
-  }
+  },
+  {
+    "type": "dir",
+    "name": "feature",
+    "label": "特性"
+  },
+  "how-it-works",
+  "Q&A"
 ]

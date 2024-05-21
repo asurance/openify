@@ -6,7 +6,7 @@ import { OpenifyError } from './openifyError';
 
 export function openify<ModalProps extends object, Value, Reason>(
   comp: ComponentType<ModalProps>,
-  config: OpenifyConfig<ModalProps> & { bindToComponent?: true },
+  config?: OpenifyConfig<ModalProps> & { bindToComponent?: true },
 ): ComponentType<ModalProps> & {
   open: (openProps: Partial<ModalProps>) => Promise<Value>;
   openSafely: (
@@ -15,7 +15,7 @@ export function openify<ModalProps extends object, Value, Reason>(
 };
 export function openify<ModalProps extends object, Value, Reason>(
   comp: ComponentType<ModalProps>,
-  config: OpenifyConfig<ModalProps> & { bindToComponent: false },
+  config?: OpenifyConfig<ModalProps> & { bindToComponent: false },
 ): {
   open: (openProps: Partial<ModalProps>) => Promise<Value>;
   openSafely: (
@@ -24,7 +24,7 @@ export function openify<ModalProps extends object, Value, Reason>(
 };
 export function openify<ModalProps extends object, Value, Reason>(
   comp: ComponentType<ModalProps>,
-  config: OpenifyConfig<ModalProps> & { bindToComponent?: boolean },
+  config: OpenifyConfig<ModalProps> & { bindToComponent?: boolean } = {},
 ) {
   const {
     bindToComponent = true,
@@ -42,7 +42,7 @@ export function openify<ModalProps extends object, Value, Reason>(
   const getContainer =
     typeof container === 'function' ? container : () => container;
   const fns = {
-    open(openProps: Partial<ModalProps>) {
+    open(openProps?: Partial<ModalProps>) {
       return new Promise<Value>((resolve, reject) => {
         const element = getContainer();
         const currentRenderHook =
@@ -71,7 +71,7 @@ export function openify<ModalProps extends object, Value, Reason>(
         renderComp();
       });
     },
-    openSafely(openProps: Partial<ModalProps>) {
+    openSafely(openProps?: Partial<ModalProps>) {
       return new Promise<OpenifyCallabck<Value, Reason>>(resolve => {
         const element = getContainer();
         const currentRenderHook =

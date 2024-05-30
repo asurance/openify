@@ -1,8 +1,3 @@
-# Promise 化
-
-Promise 化意味着配合 async/await 使用，可以大大简化代码组织
-
-```tsx
 import React, { useRef, useState } from 'react';
 import { Button, Input, Modal, Space } from '@arco-design/web-react';
 import { OpenableProps, openify } from 'openify';
@@ -58,4 +53,3 @@ export default () => {
     </Space>
   );
 };
-```

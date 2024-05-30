@@ -1,8 +1,3 @@
-# 静态调用
-
-静态调用意味着调用可以用在任何地方，例如工具脚本，store 中，甚至能配合动态导入使用
-
-```tsx
 import React from 'react';
 import { Button, Modal } from '@arco-design/web-react';
 import { OpenableProps, openify } from 'openify';
@@ -15,25 +10,21 @@ export type MyModalProps = OpenableProps<void> & {
 
 const MyModal = openify(
   ({ visible, onClose, afterClose, title }: MyModalProps) => {
+    const close = () => {
+      onClose();
+    };
     return (
       <Modal
         title={title}
         visible={visible}
-        onOk={onClose}
-        onCancel={onClose}
+        onOk={close}
+        onCancel={close}
         afterClose={afterClose}
       >
-        静态打开
+        测试
       </Modal>
     );
   },
 );
 
-function openMyModal(title: '标题') {
-  MyModal.open({ title });
-}
-
-export default () => (
-  <Button onClick={() => openMyModal('标题')}>打开弹窗</Button>
-);
-```
+export default () => <Button onClick={() => MyModal.open()}>测试</Button>;

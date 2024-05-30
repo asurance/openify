@@ -12,7 +12,10 @@
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "skipLibCheck": true,
-    "strict": true
+    "strict": true,
+    "paths": {
+      "openify": ["."]
+    }
   },
   "exclude": ["**/node_modules"],
   "include": ["**/*.ts", "**/*.tsx", "**/*.d.ts"]

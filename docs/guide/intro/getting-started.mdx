@@ -2,56 +2,35 @@ import { PackageManagerTabs } from '@theme';
 
 # 快速上手
 
-## 安装
+## 安装依赖
 
 <PackageManagerTabs command="install openify" />
 
-## 开发自定义弹窗组件
+## 使用`openify`开发组件
 
 ```tsx pure
-export type MyModalProps = {
-  visible: boolean;
-  onOk: () => void;
-  onCancel: () => void;
-  afterClose: () => void;
+export type MyModalProps = OpenableProps<xxx> & {
   /** your props **/
 };
 
-export default function MyModal({
-  visible,
-  onOk,
-  onCancel,
-  afterClose,
-  /** your props **/
-}: MyModalProps) {
-  // your code here
-  return <Modal {/** your props **/}>
-  {/** your content here **/}</Modal>;
-}
+const MyModal = openify(
+  ({ visible, onClose, afterClose, ... }: MyModalProps) => {
+    // your code here
+    return (
+      <Modal {/** your props **/}>
+        {/** your content here **/}
+      </Modal>
+    );
+  },
+);
+
+export default MyModal;
 ```
 
-## 使用 openify
-
-```tsx pure
-import { openify } from 'openify';
-
-openify(CustomModal);
-```
-
-## 使用 open 方法
+## 使用`open`方法
 
 ```tsx pure
 export default function MyApp() {
-  return (
-    <Button
-      onClick={() => {
-        CustomModal.open({
-          // your props
-        });
-      }}
-    >
-      打开弹窗
-    </Button>
-  );
+  return <Button onClick={() => MyModal.open()}>打开弹窗</Button>;
 }
 ```

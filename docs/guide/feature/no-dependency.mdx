@@ -1,3 +1,185 @@
 # 组件库无关
 
 组件库无关则可以轻易的将该工具库应用到你的项目中。
+
+## Arco Design
+
+```tsx
+import React from 'react';
+import { Button, Drawer, Modal, Space } from '@arco-design/web-react';
+import { OpenableProps, openify } from 'openify';
+
+import '@arco-design/web-react/dist/css/arco.css';
+
+type MyModalProps = OpenableProps<void> & {
+  title: string;
+};
+
+const MyModal = openify(
+  ({ visible, onClose, afterClose, title }: MyModalProps) => {
+    return (
+      <Modal
+        title={title}
+        visible={visible}
+        onOk={onClose}
+        onCancel={onClose}
+        afterClose={afterClose}
+      >
+        弹窗内容
+      </Modal>
+    );
+  },
+);
+
+type MyDrawerProps = OpenableProps<void> & {
+  title: string;
+};
+
+const MyDrawer = openify(
+  ({ visible, onClose, afterClose, title }: MyDrawerProps) => {
+    return (
+      <Drawer
+        title={title}
+        visible={visible}
+        onOk={onClose}
+        onCancel={onClose}
+        afterClose={afterClose}
+      >
+        抽屉内容
+      </Drawer>
+    );
+  },
+);
+export default () => (
+  <Space>
+    <Button onClick={() => MyModal.open({ title: '自定义弹窗' })}>
+      自定义弹窗
+    </Button>
+    <Button onClick={() => MyDrawer.open({ title: '自定义抽屉' })}>
+      自定义抽屉
+    </Button>
+  </Space>
+);
+```
+
+## Semi Design
+
+```tsx
+import React from 'react';
+import { Button, Modal, SideSheet, Space } from '@douyinfe/semi-ui';
+import { OpenableProps, openify } from 'openify';
+
+type MyModalProps = OpenableProps<void> & {
+  title: string;
+};
+
+const MyModal = openify(
+  ({ visible, onClose, afterClose, title }: MyModalProps) => {
+    return (
+      <Modal
+        title={title}
+        visible={visible}
+        onOk={onClose}
+        onCancel={onClose}
+        afterClose={afterClose}
+      >
+        弹窗内容
+      </Modal>
+    );
+  },
+);
+
+type MySideSheetProps = OpenableProps<void> & {
+  title: string;
+};
+
+const MySideSheet = openify(
+  ({ visible, onClose, afterClose, title }: MySideSheetProps) => {
+    return (
+      <SideSheet
+        title={title}
+        visible={visible}
+        onCancel={onClose}
+        afterVisibleChange={isVisible => {
+          if (!isVisible) {
+            afterClose();
+          }
+        }}
+      >
+        滑动侧边栏内容
+      </SideSheet>
+    );
+  },
+);
+export default () => (
+  <Space>
+    <Button onClick={() => MyModal.open({ title: '自定义弹窗' })}>
+      自定义弹窗
+    </Button>
+    <Button onClick={() => MySideSheet.open({ title: '自定义滑动侧边栏' })}>
+      自定义滑动侧边栏
+    </Button>
+  </Space>
+);
+```
+
+## Ant Design
+
+```tsx
+import React from 'react';
+import { OpenableProps, openify } from 'openify';
+import { Button, Drawer, Modal, Space } from 'antd';
+
+type MyModalProps = OpenableProps<void> & {
+  title: string;
+};
+
+const MyModal = openify(
+  ({ visible, onClose, afterClose, title }: MyModalProps) => {
+    return (
+      <Modal
+        title={title}
+        open={visible}
+        onOk={onClose}
+        onCancel={onClose}
+        afterClose={afterClose}
+      >
+        弹窗内容
+      </Modal>
+    );
+  },
+);
+
+type MyDrawerProps = OpenableProps<void> & {
+  title: string;
+};
+
+const MyDrawer = openify(
+  ({ visible, onClose, afterClose, title }: MyDrawerProps) => {
+    return (
+      <Drawer
+        title={title}
+        open={visible}
+        onClose={onClose}
+        afterOpenChange={open => {
+          if (!open) {
+            afterClose();
+          }
+        }}
+      >
+        抽屉内容
+      </Drawer>
+    );
+  },
+);
+export default () => (
+  <Space>
+    <Button onClick={() => MyModal.open({ title: '自定义弹窗' })}>
+      自定义弹窗
+    </Button>
+    <Button onClick={() => MyDrawer.open({ title: '自定义抽屉' })}>
+      自定义抽屉
+    </Button>
+  </Space>
+);
+```

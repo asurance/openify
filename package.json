@@ -36,6 +36,7 @@
   },
   "devDependencies": {
     "@arco-design/web-react": "^2.62.0",
+    "@douyinfe/semi-ui": "^2.59.1",
     "@modern-js/core": "2.49.3",
     "@modern-js/eslint-config": "2.49.3",
     "@modern-js/module-tools": "2.49.3",
@@ -43,6 +44,7 @@
     "@types/node": "~16.11.68",
     "@types/react": "^17.0.80",
     "@types/react-dom": "^17.0.25",
+    "antd": "^5.17.4",
     "husky": "~8.0.3",
     "lint-staged": "~13.1.4",
     "prettier": "~2.8.8",

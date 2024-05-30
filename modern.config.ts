@@ -10,6 +10,15 @@ export default defineConfig({
       doc: {
         title: 'openify',
         base: '/openify/',
+        themeConfig: {
+          socialLinks: [
+            {
+              icon: 'github',
+              mode: 'link',
+              content: 'https://github.com/openify/openify',
+            },
+          ],
+        },
       },
     }),
   ],

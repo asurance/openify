@@ -4,7 +4,7 @@ import { OpenableProps, openify } from 'openify';
 
 import '@arco-design/web-react/dist/css/arco.css';
 
-export type MyModalProps = OpenableProps<
+type MyModalProps = OpenableProps<
   | {
       isOk: true;
       id: string;

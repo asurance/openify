@@ -9,13 +9,20 @@ export default defineConfig({
     modulePluginDoc({
       doc: {
         title: 'openify',
+        description: '方便React弹窗类使用的工具',
         base: '/openify/',
+        markdown: {
+          showLineNumbers: true,
+        },
         themeConfig: {
+          darkMode: true,
+          enableContentAnimation: true,
+          enableScrollToTop: true,
           socialLinks: [
             {
               icon: 'github',
               mode: 'link',
-              content: 'https://github.com/openify/openify',
+              content: 'https://github.com/asurance/openify',
             },
           ],
         },

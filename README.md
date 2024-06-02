@@ -1,46 +1,46 @@
-# Modern.js Package
+# Openify
 
-## Setup
+> 方便 React 弹窗类使用的工具
 
-Install the dependencies:
+## 快速上手
 
-```bash
-pnpm run install
-```
-
-## Get Started
-
-Run and debug the module:
+### 安装依赖
 
 ```bash
-pnpm run dev
+npm install openify
+# or
+yarn add openify
+# or
+pnpm add openify
 ```
 
-Run test cases:
+### 使用`openify`开发组件
 
-```bash
-pnpm run test
+```tsx
+export type MyModalProps = OpenableProps<xxx> & {
+  /** your props **/
+};
+
+const MyModal = openify(
+  ({ visible, onClose, afterClose, ... }: MyModalProps) => {
+    // your code here
+    return (
+      <Modal {/** your props **/}>
+        {/** your content here **/}
+      </Modal>
+    );
+  },
+);
+
+export default MyModal;
 ```
 
-Build the module for production:
+### 使用 open 方法
 
-```bash
-pnpm run build
+```tsx
+export default function MyApp() {
+  return <Button onClick={() => MyModal.open()}>打开弹窗</Button>;
+}
 ```
 
-Enable optional features:
-
-```bash
-pnpm run new
-```
-
-Other commands:
-
-```bash
-pnpm run lint         # Lint and fix source files
-pnpm run change       # Add a new changeset
-pnpm run bump         # Update version and changelog via changeset
-pnpm run release      # Release the package
-```
-
-For more information, see the [Modern.js Module documentation](https://modernjs.dev/module-tools/en).
+## [在线文档](https://asurance.github.io/openify/)

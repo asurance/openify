@@ -23,13 +23,14 @@ tests/
 !.vscode/extensions.json
 .idea/
 
-src/
-
 .changeset
+.github
 .husky
 .vscode
+demos
 doc_build
 docs
+src
 modern.config.*
 jest.config.js
 .eslintcache

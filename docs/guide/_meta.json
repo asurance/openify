@@ -10,5 +10,10 @@
     "label": "特性"
   },
   "how-it-works",
-  "Q&A"
+  {
+    "type": "dir",
+    "name": "Q&A",
+    "label": "常见问题"
+  },
+  "api"
 ]

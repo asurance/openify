@@ -2,10 +2,14 @@ import { ReactElement } from 'react';
 
 export type PropsName = 'visible' | 'onClose' | 'afterClose';
 
-export type OpenifyConfig<Props> = {
-  defaultProps?: Partial<Props>;
+export type OpenifyConfig<
+  Value,
+  OpenProps extends OpenableProps<Value>,
+  ModalProps,
+> = {
   container?: OpenifyContainer | (() => OpenifyContainer);
   renderHook?: (node: ReactElement) => ReactElement;
+  transformProps?: (props: OpenProps) => ModalProps;
 };
 
 export type OpenifyContainer = Element | DocumentFragment;
@@ -28,6 +32,6 @@ export type OnCloseFn<Value> = IsVoid<Value> extends true
   ? () => void
   : (value: Value) => void;
 
-export type OpenResult<ModalProps extends OpenableProps<any>> = Parameters<
-  ModalProps['onClose']
+export type OpenResult<OpenProps extends OpenableProps<any>> = Parameters<
+  OpenProps['onClose']
 >[0];

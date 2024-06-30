@@ -9,36 +9,37 @@ import { OpenableProps, openify } from 'openify';
 
 import '@arco-design/web-react/dist/css/arco.css';
 
-type MyModalProps = OpenableProps<
+type Value =
   | {
       isOk: true;
       id: string;
     }
-  | { isOk: false }
-> & {
+  | { isOk: false };
+
+type MyModalProps = OpenableProps<Value> & {
   id: string;
 };
 
-const MyModal = openify(
-  ({ visible, onClose, afterClose, id }: MyModalProps) => {
-    const idRef = useRef(id || Math.random().toString(36).slice(2));
-    return (
-      <Modal
-        title={id ? '编辑任务' : '新建任务'}
-        visible={visible}
-        onOk={() => {
-          onClose({ isOk: true, id: idRef.current });
-        }}
-        onCancel={() => {
-          onClose({ isOk: false });
-        }}
-        afterClose={afterClose}
-      >
-        {`任务ID: ${idRef.current}`}
-      </Modal>
-    );
-  },
-);
+const MyModal = ({ visible, onClose, afterClose, id }: MyModalProps) => {
+  const idRef = useRef(id || Math.random().toString(36).slice(2));
+  return (
+    <Modal
+      title={id ? '编辑任务' : '新建任务'}
+      visible={visible}
+      onOk={() => {
+        onClose({ isOk: true, id: idRef.current });
+      }}
+      onCancel={() => {
+        onClose({ isOk: false });
+      }}
+      afterClose={afterClose}
+    >
+      {`任务ID: ${idRef.current}`}
+    </Modal>
+  );
+};
+
+const openMyModal = openify<Value, MyModalProps, MyModalProps>(MyModal);
 
 export default () => {
   const [taskId, setTaskId] = useState('');
@@ -47,7 +48,7 @@ export default () => {
       <Input placeholder="请输入任务ID" value={taskId} onChange={setTaskId} />
       <Button
         onClick={async () => {
-          const res = await MyModal.open({ id: taskId });
+          const res = await openMyModal({ id: taskId });
           if (res.isOk) {
             setTaskId(res.id);
           }

@@ -7,62 +7,50 @@ import {
   OpenifyRenderHook,
   PropsName,
 } from './interface';
+import { noop } from './contant';
 
-export function openify<ModalProps extends OpenableProps<any>>(
+export function openify<
+  Value,
+  OpenProps extends OpenableProps<Value>,
+  // eslint-disable-next-line @typescript-eslint/ban-types
+  ModalProps extends {} = OpenProps,
+>(
   comp: ComponentType<ModalProps>,
-  config?: OpenifyConfig<ModalProps> & { bindToComponent?: true },
-): ComponentType<ModalProps> & {
-  open: (
-    openProps?: Partial<Omit<ModalProps, PropsName>>,
-  ) => Promise<OpenResult<ModalProps>>;
-};
-export function openify<ModalProps extends OpenableProps<any>>(
-  comp: ComponentType<ModalProps>,
-  config?: OpenifyConfig<ModalProps> & { bindToComponent: false },
-): {
-  open: (
-    openProps?: Partial<Omit<ModalProps, PropsName>>,
-  ) => Promise<OpenResult<ModalProps>>;
-};
-export function openify<ModalProps extends OpenableProps<any>>(
-  comp: ComponentType<ModalProps>,
-  config: OpenifyConfig<ModalProps> & { bindToComponent?: boolean } = {},
+  config?: OpenifyConfig<Value, OpenProps, ModalProps>,
 ) {
   const {
-    bindToComponent = true,
-    defaultProps,
     container = document.createElement('div'),
     renderHook,
-  } = config;
+    transformProps = noop,
+  } = config || {};
   const getContainer =
     typeof container === 'function' ? container : () => container;
-  const fns = {
-    open(openProps?: Partial<Omit<ModalProps, PropsName>>) {
-      return new Promise<OpenResult<ModalProps>>(resolve => {
-        const element = getContainer();
-        const currentRenderHook =
-          renderHook || openify.defaultRenderHook || (node => node);
-        const renderComp = () => {
-          render(currentRenderHook(createElement(comp, curretProps)), element);
-        };
-        let curretProps = {
-          ...defaultProps,
-          ...openProps,
-          visible: true,
-          onClose(value: OpenResult<ModalProps>) {
-            resolve(value);
-            curretProps = { ...curretProps, visible: false };
-            renderComp();
-          },
-          afterClose() {
-            unmountComponentAtNode(element);
-          },
-        } as ModalProps;
-        renderComp();
-      });
-    },
+  return (openProps?: Partial<Omit<OpenProps, PropsName>>) => {
+    return new Promise<OpenResult<OpenProps>>(resolve => {
+      const element = getContainer();
+      const currentRenderHook =
+        renderHook || openify.defaultRenderHook || (node => node);
+      const renderComp = () => {
+        render(
+          currentRenderHook(createElement(comp, transformProps(curretProps))),
+          element,
+        );
+      };
+      let curretProps = {
+        ...openProps,
+        visible: true,
+        onClose(value: OpenResult<OpenProps>) {
+          resolve(value);
+          curretProps = { ...curretProps, visible: false };
+          renderComp();
+        },
+        afterClose() {
+          unmountComponentAtNode(element);
+        },
+      } as OpenProps;
+      renderComp();
+    });
   };
-  return bindToComponent ? Object.assign(comp, fns) : fns;
 }
 
-openify.defaultRenderHook = (node => node) satisfies OpenifyRenderHook;
+openify.defaultRenderHook = noop as OpenifyRenderHook;

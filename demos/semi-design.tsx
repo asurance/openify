@@ -1,55 +1,54 @@
-import React from 'react';
+import React, { ComponentType } from 'react';
 import { Button, Modal, SideSheet, Space } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
+import { ModalReactProps } from '@douyinfe/semi-ui/lib/es/modal';
+import { SideSheetReactProps } from '@douyinfe/semi-ui/lib/es/sideSheet';
 
-type MyModalProps = OpenableProps<void> & {
-  title: string;
-};
+type OpenModalProps = OpenableProps<void> &
+  Omit<ModalReactProps, 'visible' | 'onOk' | 'onCancel' | 'afterClose'>;
 
-const MyModal = openify(
-  ({ visible, onClose, afterClose, title }: MyModalProps) => {
-    return (
-      <Modal
-        title={title}
-        visible={visible}
-        onOk={onClose}
-        onCancel={onClose}
-        afterClose={afterClose}
-      >
-        弹窗内容
-      </Modal>
-    );
+const openModal = openify<void, OpenModalProps, ModalReactProps>(
+  Modal as ComponentType<ModalReactProps>,
+  {
+    transformProps({ visible, onClose, afterClose, ...restProps }) {
+      return {
+        ...restProps,
+        visible,
+        onOk: onClose,
+        onCancel: onClose,
+        afterClose,
+      };
+    },
   },
 );
 
-type MySideSheetProps = OpenableProps<void> & {
-  title: string;
-};
+type OpenSideSheetProps = OpenableProps<void> &
+  Omit<SideSheetReactProps, 'visible' | 'onCancel' | 'afterVisibleChange'>;
 
-const MySideSheet = openify(
-  ({ visible, onClose, afterClose, title }: MySideSheetProps) => {
-    return (
-      <SideSheet
-        title={title}
-        visible={visible}
-        onCancel={onClose}
-        afterVisibleChange={isVisible => {
+const openSideSheet = openify<void, OpenSideSheetProps, SideSheetReactProps>(
+  SideSheet as ComponentType<SideSheetReactProps>,
+  {
+    transformProps({ visible, onClose, afterClose, ...restProps }) {
+      return {
+        ...restProps,
+        visible,
+        onCancel: onClose,
+        afterVisibleChange: isVisible => {
           if (!isVisible) {
             afterClose();
           }
-        }}
-      >
-        滑动侧边栏内容
-      </SideSheet>
-    );
+        },
+      };
+    },
   },
 );
+
 export default () => (
   <Space>
-    <Button onClick={() => MyModal.open({ title: '自定义弹窗' })}>
+    <Button onClick={() => openModal({ title: '自定义弹窗' })}>
       自定义弹窗
     </Button>
-    <Button onClick={() => MySideSheet.open({ title: '自定义滑动侧边栏' })}>
+    <Button onClick={() => openSideSheet({ title: '自定义滑动侧边栏' })}>
       自定义滑动侧边栏
     </Button>
   </Space>

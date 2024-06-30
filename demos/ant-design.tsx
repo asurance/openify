@@ -1,55 +1,46 @@
 import React from 'react';
 import { OpenableProps, openify } from 'openify';
-import { Button, Drawer, Modal, Space } from 'antd';
+import { Button, Drawer, DrawerProps, Modal, ModalProps, Space } from 'antd';
 
-type MyModalProps = OpenableProps<void> & {
-  title: string;
-};
+type OpenModalProps = OpenableProps<void> &
+  Omit<ModalProps, 'open' | 'onOk' | 'onCancel' | 'afterClose'>;
 
-const MyModal = openify(
-  ({ visible, onClose, afterClose, title }: MyModalProps) => {
-    return (
-      <Modal
-        title={title}
-        open={visible}
-        onOk={onClose}
-        onCancel={onClose}
-        afterClose={afterClose}
-      >
-        弹窗内容
-      </Modal>
-    );
+const openModal = openify<void, OpenModalProps, ModalProps>(Modal, {
+  transformProps({ visible, onClose, afterClose, ...restProps }) {
+    return {
+      ...restProps,
+      open: visible,
+      onOk: onClose,
+      onCancel: onClose,
+      afterClose,
+    };
   },
-);
+});
 
-type MyDrawerProps = OpenableProps<void> & {
-  title: string;
-};
+type OpenDrawerProps = OpenableProps<void> &
+  Omit<DrawerProps, 'open' | 'onClose' | 'afterOpenChange'>;
 
-const MyDrawer = openify(
-  ({ visible, onClose, afterClose, title }: MyDrawerProps) => {
-    return (
-      <Drawer
-        title={title}
-        open={visible}
-        onClose={onClose}
-        afterOpenChange={open => {
-          if (!open) {
-            afterClose();
-          }
-        }}
-      >
-        抽屉内容
-      </Drawer>
-    );
+const openDrawer = openify<void, OpenDrawerProps, DrawerProps>(Drawer, {
+  transformProps({ visible, onClose, afterClose, ...restProps }) {
+    return {
+      ...restProps,
+      open: visible,
+      onClose,
+      afterOpenChange: open => {
+        if (!open) {
+          afterClose();
+        }
+      },
+    };
   },
-);
+});
+
 export default () => (
   <Space>
-    <Button onClick={() => MyModal.open({ title: '自定义弹窗' })}>
+    <Button onClick={() => openModal({ title: '自定义弹窗' })}>
       自定义弹窗
     </Button>
-    <Button onClick={() => MyDrawer.open({ title: '自定义抽屉' })}>
+    <Button onClick={() => openDrawer({ title: '自定义抽屉' })}>
       自定义抽屉
     </Button>
   </Space>

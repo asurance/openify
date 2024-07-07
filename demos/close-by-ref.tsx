@@ -1,9 +1,4 @@
-import React, {
-  RefAttributes,
-  createRef,
-  forwardRef,
-  useImperativeHandle,
-} from 'react';
+import React, { createRef, forwardRef, useImperativeHandle } from 'react';
 import { Button, Modal, Space } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
 
@@ -39,11 +34,7 @@ const MyModal = forwardRef<MyModalRef, MyModalProps>(
   },
 );
 
-const openMyModal = openify<
-  void,
-  MyModalProps & RefAttributes<MyModalRef>,
-  MyModalProps
->(MyModal);
+const openMyModal = openify(MyModal);
 
 export default () => (
   <Space>

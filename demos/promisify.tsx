@@ -32,7 +32,7 @@ const MyModal = ({ visible, onClose, afterClose, id }: MyModalProps) => {
   );
 };
 
-const openMyModal = openify<Value, MyModalProps, MyModalProps>(MyModal);
+const openMyModal = openify(MyModal);
 
 export default () => {
   const [taskId, setTaskId] = useState('');

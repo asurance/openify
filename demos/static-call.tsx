@@ -20,7 +20,7 @@ const MyModal = ({ visible, onClose, afterClose, title }: MyModalProps) => {
   );
 };
 
-const openMyModal = openify<void, MyModalProps, MyModalProps>(MyModal);
+const openMyModal = openify(MyModal);
 
 export default () => (
   <Space>

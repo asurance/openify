@@ -25,10 +25,6 @@ const MyAsyncModal = ({
   );
 };
 
-export const openMyAsyncModal = openify<
-  void,
-  MyAsyncModalProps,
-  MyAsyncModalProps
->(MyAsyncModal);
+export const openMyAsyncModal = openify(MyAsyncModal);
 
 export default MyAsyncModal;

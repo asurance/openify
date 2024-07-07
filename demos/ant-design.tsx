@@ -5,8 +5,13 @@ import { Button, Drawer, DrawerProps, Modal, ModalProps, Space } from 'antd';
 type OpenModalProps = OpenableProps<void> &
   Omit<ModalProps, 'open' | 'onOk' | 'onCancel' | 'afterClose'>;
 
-const openModal = openify<void, OpenModalProps, ModalProps>(Modal, {
-  transformProps({ visible, onClose, afterClose, ...restProps }) {
+const openModal = openify(Modal, {
+  transformProps({
+    visible,
+    onClose,
+    afterClose,
+    ...restProps
+  }: OpenModalProps) {
     return {
       ...restProps,
       open: visible,
@@ -20,8 +25,13 @@ const openModal = openify<void, OpenModalProps, ModalProps>(Modal, {
 type OpenDrawerProps = OpenableProps<void> &
   Omit<DrawerProps, 'open' | 'onClose' | 'afterOpenChange'>;
 
-const openDrawer = openify<void, OpenDrawerProps, DrawerProps>(Drawer, {
-  transformProps({ visible, onClose, afterClose, ...restProps }) {
+const openDrawer = openify(Drawer, {
+  transformProps({
+    visible,
+    onClose,
+    afterClose,
+    ...restProps
+  }: OpenDrawerProps) {
     return {
       ...restProps,
       open: visible,

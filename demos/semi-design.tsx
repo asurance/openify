@@ -7,41 +7,45 @@ import { SideSheetReactProps } from '@douyinfe/semi-ui/lib/es/sideSheet';
 type OpenModalProps = OpenableProps<void> &
   Omit<ModalReactProps, 'visible' | 'onOk' | 'onCancel' | 'afterClose'>;
 
-const openModal = openify<void, OpenModalProps, ModalReactProps>(
-  Modal as ComponentType<ModalReactProps>,
-  {
-    transformProps({ visible, onClose, afterClose, ...restProps }) {
-      return {
-        ...restProps,
-        visible,
-        onOk: onClose,
-        onCancel: onClose,
-        afterClose,
-      };
-    },
+const openModal = openify(Modal as ComponentType<ModalReactProps>, {
+  transformProps({
+    visible,
+    onClose,
+    afterClose,
+    ...restProps
+  }: OpenModalProps) {
+    return {
+      ...restProps,
+      visible,
+      onOk: onClose,
+      onCancel: onClose,
+      afterClose,
+    };
   },
-);
+});
 
 type OpenSideSheetProps = OpenableProps<void> &
   Omit<SideSheetReactProps, 'visible' | 'onCancel' | 'afterVisibleChange'>;
 
-const openSideSheet = openify<void, OpenSideSheetProps, SideSheetReactProps>(
-  SideSheet as ComponentType<SideSheetReactProps>,
-  {
-    transformProps({ visible, onClose, afterClose, ...restProps }) {
-      return {
-        ...restProps,
-        visible,
-        onCancel: onClose,
-        afterVisibleChange: isVisible => {
-          if (!isVisible) {
-            afterClose();
-          }
-        },
-      };
-    },
+const openSideSheet = openify(SideSheet as ComponentType<SideSheetReactProps>, {
+  transformProps({
+    visible,
+    onClose,
+    afterClose,
+    ...restProps
+  }: OpenSideSheetProps) {
+    return {
+      ...restProps,
+      visible,
+      onCancel: onClose,
+      afterVisibleChange: isVisible => {
+        if (!isVisible) {
+          afterClose();
+        }
+      },
+    };
   },
-);
+});
 
 export default () => (
   <Space>

@@ -14,8 +14,13 @@ import '@arco-design/web-react/dist/css/arco.css';
 type OpenModalProps = OpenableProps<void> &
   Omit<ModalProps, 'visible' | 'onOk' | 'onCancel' | 'afterClose'>;
 
-const openModal = openify<void, OpenModalProps, ModalProps>(Modal, {
-  transformProps({ visible, onClose, afterClose, ...restProps }) {
+const openModal = openify(Modal, {
+  transformProps({
+    visible,
+    onClose,
+    afterClose,
+    ...restProps
+  }: OpenModalProps) {
     return {
       ...restProps,
       visible,
@@ -29,8 +34,13 @@ const openModal = openify<void, OpenModalProps, ModalProps>(Modal, {
 type OpenDrawerProps = OpenableProps<void> &
   Omit<DrawerProps, 'visible' | 'onOk' | 'onCancel' | 'afterClose'>;
 
-const openDrawer = openify<void, OpenDrawerProps, DrawerProps>(Drawer, {
-  transformProps({ visible, onClose, afterClose, ...restProps }) {
+const openDrawer = openify(Drawer, {
+  transformProps({
+    visible,
+    onClose,
+    afterClose,
+    ...restProps
+  }: OpenDrawerProps) {
     return {
       ...restProps,
       visible,

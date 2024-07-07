@@ -26,18 +26,15 @@ const MyModal = ({ visible, onClose, afterClose, title }: MyModalProps) => {
   );
 };
 
-const openMyModalDefault = openify<void, MyModalProps, MyModalProps>(MyModal);
+const openMyModalDefault = openify(MyModal);
 
-const openMyModalWithRenderHook = openify<void, MyModalProps, MyModalProps>(
-  MyModal,
-  {
-    renderHook: node => {
-      return (
-        <myContext.Provider value="context提供内容">{node}</myContext.Provider>
-      );
-    },
+const openMyModalWithRenderHook = openify(MyModal, {
+  renderHook: node => {
+    return (
+      <myContext.Provider value="context提供内容">{node}</myContext.Provider>
+    );
   },
-);
+});
 
 export default () => (
   <myContext.Provider value="context提供内容">

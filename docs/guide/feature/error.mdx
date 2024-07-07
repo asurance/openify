@@ -30,7 +30,7 @@ const MyModal = ({ visible, onClose, afterClose }: MyModalProps) => {
   );
 };
 
-const openModal = openify<void, MyModalProps, MyModalProps>(MyModal);
+const openModal = openify(MyModal);
 
 export default () => (
   <Button onClick={() => openModal({ title: '自定义弹窗' })}>自定义弹窗</Button>

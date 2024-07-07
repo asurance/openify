@@ -1,1 +1,1 @@
-["static-call", "promisify", "no-dependency"]
+["static-call", "promisify", "no-dependency", "error"]

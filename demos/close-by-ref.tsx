@@ -4,10 +4,8 @@ import React, {
   forwardRef,
   useImperativeHandle,
 } from 'react';
-import { Button, Modal, Space } from '@arco-design/web-react';
+import { Button, Modal, Space } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
-
-import '@arco-design/web-react/dist/css/arco.css';
 
 type MyModalProps = OpenableProps<void> & {
   title: string;

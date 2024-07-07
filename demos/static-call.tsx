@@ -1,8 +1,6 @@
 import React from 'react';
-import { Button, Modal, Space } from '@arco-design/web-react';
+import { Button, Modal, Space } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
-
-import '@arco-design/web-react/dist/css/arco.css';
 
 type MyModalProps = OpenableProps<void> & {
   title: string;
@@ -29,8 +27,8 @@ export default () => (
     <Button onClick={() => openMyModal({ title: '标题' })}>打开弹窗</Button>
     <Button
       onClick={async () => {
-        const { openMyDrawer } = await import('./mydrawer');
-        openMyDrawer({ title: '标题' });
+        const { openMyAsyncModal } = await import('demos/mydrawer');
+        openMyAsyncModal({ title: '标题' });
       }}
     >
       动态加载

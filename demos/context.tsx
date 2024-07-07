@@ -1,8 +1,6 @@
 import React, { createContext, useContext } from 'react';
-import { Button, Modal, Space } from '@arco-design/web-react';
+import { Button, Modal, Space } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
-
-import '@arco-design/web-react/dist/css/arco.css';
 
 const myContext = createContext('默认内容');
 

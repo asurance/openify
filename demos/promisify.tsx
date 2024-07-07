@@ -1,8 +1,6 @@
 import React, { useRef, useState } from 'react';
-import { Button, Input, Modal, Space } from '@arco-design/web-react';
+import { Button, Input, Modal, Space } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
-
-import '@arco-design/web-react/dist/css/arco.css';
 
 type Value =
   | {

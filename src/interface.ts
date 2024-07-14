@@ -24,14 +24,6 @@ export type OpenResult<OpenProps extends OpenableProps<any>> = Parameters<
   OpenProps['onClose']
 >[0];
 
-export type OpenifyConfig = {
-  getContainer?: () => Element | DocumentFragment;
-  renderHook?: (node: ReactElement) => ReactElement;
-};
-
-export type OpenifyConfigWithTransform<
-  OpenProps extends OpenableProps,
-  ModalProps,
-> = OpenifyConfig & {
+export type OpenifyConfig<OpenProps extends OpenableProps, ModalProps> = {
   transformProps?: (props: OpenProps) => ModalProps;
 };

@@ -26,23 +26,31 @@ const MyModal = ({ visible, onClose, afterClose, title }: MyModalProps) => {
   );
 };
 
-const openMyModalDefault = openify(MyModal);
-
-const openMyModalWithRenderHook = openify(MyModal, {
-  renderHook: node => {
-    return (
-      <myContext.Provider value="context提供内容">{node}</myContext.Provider>
-    );
-  },
-});
+const openMyModal = openify(MyModal);
 
 export default () => (
   <myContext.Provider value="context提供内容">
     <Space>
-      <Button onClick={() => openMyModalDefault({ title: '弹窗' })}>
+      <Button
+        onClick={() => {
+          openify.defaultRenderHook = undefined;
+          openMyModal({ title: '弹窗' });
+        }}
+      >
         打开弹窗
       </Button>
-      <Button onClick={() => openMyModalWithRenderHook({ title: '弹窗' })}>
+      <Button
+        onClick={() => {
+          openify.defaultRenderHook = node => {
+            return (
+              <myContext.Provider value="context提供内容">
+                {node}
+              </myContext.Provider>
+            );
+          };
+          openMyModal({ title: '弹窗' });
+        }}
+      >
         打开弹窗
       </Button>
     </Space>

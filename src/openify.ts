@@ -8,6 +8,7 @@ import {
   PropsName,
 } from './interface';
 import { noop } from './contant';
+import { defaultRenderHook } from './ErrorBoundary';
 
 export function openify<ModalProps extends OpenableProps>(
   comp: ComponentType<ModalProps>,
@@ -29,10 +30,16 @@ export function openify<
   return (openProps?: Partial<Omit<OpenProps, PropsName>>) => {
     return new Promise<OpenResult<OpenProps>>(resolve => {
       const element = document.createElement('div');
-      const currentRenderHook = openify.defaultRenderHook || noop;
+      const currentRenderHook = openify.defaultRenderHook || defaultRenderHook;
+      const dispose = () => {
+        unmountComponentAtNode(element);
+      };
       const renderComp = () => {
         render(
-          currentRenderHook(createElement(comp, transformProps(curretProps))),
+          currentRenderHook(
+            createElement(comp, transformProps(curretProps)),
+            dispose,
+          ),
           element,
         );
       };
@@ -44,9 +51,7 @@ export function openify<
           curretProps = { ...curretProps, visible: false };
           renderComp();
         },
-        afterClose() {
-          unmountComponentAtNode(element);
-        },
+        afterClose: dispose,
       } as OpenProps;
       renderComp();
     });

@@ -12,7 +12,10 @@ export type OnCloseFn<Value> = IsVoid<Value> extends true
 
 export type PropsName = 'visible' | 'onClose' | 'afterClose';
 
-export type OpenifyRenderHook = (node: ReactElement) => ReactElement;
+export type OpenifyRenderHook = (
+  node: ReactElement,
+  onError: () => void,
+) => ReactElement;
 
 export type OpenableProps<Value = any> = {
   visible: boolean;

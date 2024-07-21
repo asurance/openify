@@ -1,3 +1,18 @@
 # 欢迎使用
 
-openify 是一个简化弹窗/抽屉类组件打开的工具库
+## 背景原因
+
+我们都知道，`React` 本身是一个声明式的 UI 框架，虽然这一点在大部分场景下表现很好，但是在弹窗等类似组件的使用过程中，我们其实更希望能直接去调用方法来打开而不关心具体组件挂载在整棵渲染树的位置。虽然一般组件库会提供类似 `Modal.open`等的 api 来满足这类需求，但是在使用上，难以满足很多复杂形式组件的交互，于是 `openify` 应运而生。
+
+## 介绍
+
+`openify` 是一个简化 `React` 弹窗类组件调用的工具，它的设计目标是使开发者能够更轻松地调用复杂的弹窗类组件，同时保持代码的可读性和可维护性。
+
+## 特性
+
+- [静态调用](/guide/feature/static-call)：`openify` 提供了命令式的 API，使得开发者在任何地方进行调用。
+- [Promise 化](/guide/feature/promisify)：`openify` 提供的`open`函数会返回一个`Promise`，配合`async/await`能大大简化代码组织。
+- [组件库无关](/guide/feature/no-dependency)：`openify` 本身不依赖组件库，所以它可以轻易的应用到任意`React`项目中。
+- [拒绝缓存](/guide/feature/no-cache)：`openify` 每次打开的弹窗都是全新生成的，组件内部时无需考虑属性更新相关内容。
+- [及时清理](/guide/feature/clear)：`openify` 弹窗关闭后会从内存中自动清理，无需考虑组件挂载过多带来的性能问题。
+- [无惧异常](/guide/feature/error)：`openify` 渲染的弹窗中发生异常时，只有弹窗本身会受到影响，不会对应用自身产生影响。

@@ -1,4 +1,6 @@
-# context 获取失败
+# context 相关问题
+
+受实现方式限制，`openify`中的弹窗并不是挂在主应用下的，无法直接拿到应用的`context`，这边会提供`defaultRenderHook`来共享`context`。
 
 ```tsx
 import React, { createContext, useContext } from 'react';
@@ -7,15 +9,13 @@ import { OpenableProps, openify } from 'openify';
 
 const myContext = createContext('默认内容');
 
-type MyModalProps = OpenableProps<void> & {
-  title: string;
-};
+type MyModalProps = OpenableProps<void>;
 
-const MyModal = ({ visible, onClose, afterClose, title }: MyModalProps) => {
+const MyModal = ({ visible, onClose, afterClose }: MyModalProps) => {
   const context = useContext(myContext);
   return (
     <Modal
-      title={title}
+      title="弹窗"
       visible={visible}
       onOk={onClose}
       onCancel={onClose}
@@ -34,10 +34,10 @@ export default () => (
       <Button
         onClick={() => {
           openify.defaultRenderHook = undefined;
-          openMyModal({ title: '弹窗' });
+          openMyModal({});
         }}
       >
-        打开弹窗
+        默认获取不到context
       </Button>
       <Button
         onClick={() => {
@@ -48,12 +48,17 @@ export default () => (
               </myContext.Provider>
             );
           };
-          openMyModal({ title: '弹窗' });
+          openMyModal({});
         }}
       >
-        打开弹窗
+        共享context
       </Button>
     </Space>
   </myContext.Provider>
 );
 ```
+
+更多参考
+
+- [openify](/guide/api#openify)
+- [OpenifyRenderHook](/guide/api#openifyrenderhook)

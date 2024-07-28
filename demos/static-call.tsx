@@ -1,37 +1,42 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Button, Modal, Space } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
 
 type MyModalProps = OpenableProps<void> & {
-  title: string;
+  content: ReactNode;
 };
 
-const MyModal = ({ visible, onClose, afterClose, title }: MyModalProps) => {
+const MyModal = ({ visible, onClose, afterClose, content }: MyModalProps) => {
   return (
     <Modal
-      title={title}
+      title="弹窗标题"
       visible={visible}
       onOk={onClose}
       onCancel={onClose}
       afterClose={afterClose}
     >
-      静态打开
+      {content}
     </Modal>
   );
 };
 
 const openMyModal = openify(MyModal);
 
+function doSomethingWithModal() {
+  // do something
+  openMyModal({ content: '静态弹窗内容' });
+}
+
 export default () => (
   <Space>
-    <Button onClick={() => openMyModal({ title: '标题' })}>打开弹窗</Button>
+    <Button onClick={() => doSomethingWithModal()}>打开弹窗</Button>
     <Button
       onClick={async () => {
-        const { openMyAsyncModal } = await import('demos/mydrawer');
-        openMyAsyncModal({ title: '标题' });
+        const { openMyAsyncModal } = await import('demos/MyAsyncModal');
+        openMyAsyncModal({ content: '动态加载弹窗内容' });
       }}
     >
-      动态加载
+      动态加载弹窗
     </Button>
   </Space>
 );

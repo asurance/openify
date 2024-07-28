@@ -6,7 +6,7 @@ import { PackageManagerTabs } from '@theme';
 
 <PackageManagerTabs command="install openify" />
 
-## 开发组件，注意实现`visible`, `onClose`, `afterClose`这三个 props
+## 开发组件，注意实现`visible`， `onClose`， `afterClose`这三个 props
 
 ```tsx pure
 type MyModalProps = OpenableProps<xxx> & {
@@ -42,3 +42,5 @@ function MyApp() {
   return <Button onClick={() => openMyModal()}>打开弹窗</Button>;
 }
 ```
+
+## 更多参考[API](/guide/api)

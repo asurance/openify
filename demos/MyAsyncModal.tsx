@@ -1,26 +1,26 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Modal } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
 
 type MyAsyncModalProps = OpenableProps<void> & {
-  title: string;
+  content: ReactNode;
 };
 
 const MyAsyncModal = ({
   visible,
+  content,
   onClose,
   afterClose,
-  title,
 }: MyAsyncModalProps) => {
   return (
     <Modal
-      title={title}
+      title="动态加载弹窗"
       visible={visible}
       onOk={onClose}
       onCancel={onClose}
       afterClose={afterClose}
     >
-      静态打开
+      {content}
     </Modal>
   );
 };

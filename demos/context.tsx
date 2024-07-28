@@ -4,15 +4,13 @@ import { OpenableProps, openify } from 'openify';
 
 const myContext = createContext('默认内容');
 
-type MyModalProps = OpenableProps<void> & {
-  title: string;
-};
+type MyModalProps = OpenableProps<void>;
 
-const MyModal = ({ visible, onClose, afterClose, title }: MyModalProps) => {
+const MyModal = ({ visible, onClose, afterClose }: MyModalProps) => {
   const context = useContext(myContext);
   return (
     <Modal
-      title={title}
+      title="弹窗"
       visible={visible}
       onOk={onClose}
       onCancel={onClose}
@@ -31,10 +29,10 @@ export default () => (
       <Button
         onClick={() => {
           openify.defaultRenderHook = undefined;
-          openMyModal({ title: '弹窗' });
+          openMyModal({});
         }}
       >
-        打开弹窗
+        默认获取不到context
       </Button>
       <Button
         onClick={() => {
@@ -45,10 +43,10 @@ export default () => (
               </myContext.Provider>
             );
           };
-          openMyModal({ title: '弹窗' });
+          openMyModal({});
         }}
       >
-        打开弹窗
+        共享context
       </Button>
     </Space>
   </myContext.Provider>

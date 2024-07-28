@@ -13,6 +13,6 @@
 - [静态调用](/guide/feature/static-call)：`openify` 提供了命令式的 API，使得开发者在任何地方进行调用。
 - [Promise 化](/guide/feature/promisify)：`openify` 提供的`open`函数会返回一个`Promise`，配合`async/await`能大大简化代码组织。
 - [组件库无关](/guide/feature/no-dependency)：`openify` 本身不依赖组件库，所以它可以轻易的应用到任意`React`项目中。
+- [方便回退](/guide/feature/fallback)：`openify`对代码基本没有侵入性，对应的组件完全可以按照 JSX 形式去使用。。
 - [拒绝缓存](/guide/feature/no-cache)：`openify` 每次打开的弹窗都是全新生成的，组件内部时无需考虑属性更新相关内容。
-- [及时清理](/guide/feature/clear)：`openify` 弹窗关闭后会从内存中自动清理，无需考虑组件挂载过多带来的性能问题。
 - [无惧异常](/guide/feature/error)：`openify` 渲染的弹窗中发生异常时，只有弹窗本身会受到影响，不会对应用自身产生影响。

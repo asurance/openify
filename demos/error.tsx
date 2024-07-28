@@ -11,6 +11,7 @@ const MyModal = ({ visible, onClose, afterClose }: MyModalProps) => {
   }
   return (
     <Modal
+      title="异常弹窗"
       visible={visible}
       onOk={onClose}
       onCancel={onClose}
@@ -21,7 +22,7 @@ const MyModal = ({ visible, onClose, afterClose }: MyModalProps) => {
           setShowError(true);
         }}
       >
-        error
+        发生异常
       </Button>
     </Modal>
   );
@@ -30,5 +31,5 @@ const MyModal = ({ visible, onClose, afterClose }: MyModalProps) => {
 const openModal = openify(MyModal);
 
 export default () => (
-  <Button onClick={() => openModal({ title: '自定义弹窗' })}>自定义弹窗</Button>
+  <Button onClick={() => openModal({})}>异常弹窗组件</Button>
 );

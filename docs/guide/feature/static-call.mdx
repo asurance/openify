@@ -3,41 +3,81 @@
 静态调用意味着调用可以用在任何地方，例如工具脚本，store 中，甚至能配合动态导入使用
 
 ```tsx
-import React from 'react';
+import React, { ReactNode } from 'react';
 import { Button, Modal, Space } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
 
 type MyModalProps = OpenableProps<void> & {
-  title: string;
+  content: ReactNode;
 };
 
-const MyModal = ({ visible, onClose, afterClose, title }: MyModalProps) => {
+const MyModal = ({ visible, onClose, afterClose, content }: MyModalProps) => {
   return (
     <Modal
-      title={title}
+      title="弹窗标题"
       visible={visible}
       onOk={onClose}
       onCancel={onClose}
       afterClose={afterClose}
     >
-      静态打开
+      {content}
     </Modal>
   );
 };
 
 const openMyModal = openify(MyModal);
 
+function doSomethingWithModal() {
+  // do something
+  openMyModal({ content: '静态弹窗内容' });
+}
+
 export default () => (
   <Space>
-    <Button onClick={() => openMyModal({ title: '标题' })}>打开弹窗</Button>
+    <Button onClick={() => doSomethingWithModal()}>打开弹窗</Button>
     <Button
       onClick={async () => {
-        const { openMyAsyncModal } = await import('demos/mydrawer');
-        openMyAsyncModal({ title: '标题' });
+        const { openMyAsyncModal } = await import('demos/MyAsyncModal');
+        openMyAsyncModal({ content: '动态加载弹窗内容' });
       }}
     >
-      动态加载
+      动态加载弹窗
     </Button>
   </Space>
 );
+```
+
+其中`demos/MyAsyncModal`内容为
+
+```tsx pure
+import React, { ReactNode } from 'react';
+import { Modal } from '@douyinfe/semi-ui';
+import { OpenableProps, openify } from 'openify';
+
+type MyAsyncModalProps = OpenableProps<void> & {
+  content: ReactNode;
+};
+
+const MyAsyncModal = ({
+  visible,
+  content,
+  onClose,
+  afterClose,
+}: MyAsyncModalProps) => {
+  return (
+    <Modal
+      title="动态加载弹窗"
+      visible={visible}
+      onOk={onClose}
+      onCancel={onClose}
+      afterClose={afterClose}
+    >
+      {content}
+    </Modal>
+  );
+};
+
+export const openMyAsyncModal = openify(MyAsyncModal);
+
+export default MyAsyncModal;
 ```

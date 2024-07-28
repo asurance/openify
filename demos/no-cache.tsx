@@ -1,8 +1,3 @@
-# 拒绝缓存
-
-弹窗组件的每次打开都会是一起全新的打开，不会受到先前打开的影响。
-
-```tsx
 import React, { useEffect, useState } from 'react';
 import { Button, Input, Modal, Space, Toast } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
@@ -49,4 +44,3 @@ export default () => {
     </Space>
   );
 };
-```

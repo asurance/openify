@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { Button, Input, Modal, Space } from '@douyinfe/semi-ui';
+import React, { useState } from 'react';
+import { Button, Input, Modal, Space, Toast } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
 
 type Value =
@@ -14,20 +14,20 @@ type MyModalProps = OpenableProps<Value> & {
 };
 
 const MyModal = ({ visible, onClose, afterClose, id }: MyModalProps) => {
-  const idRef = useRef(id || Math.random().toString(36).slice(2));
+  const [nextId, setNextId] = useState(id || '');
   return (
     <Modal
       title={id ? '编辑任务' : '新建任务'}
       visible={visible}
       onOk={() => {
-        onClose({ isOk: true, id: idRef.current });
+        onClose({ isOk: true, id: nextId });
       }}
       onCancel={() => {
         onClose({ isOk: false });
       }}
       afterClose={afterClose}
     >
-      {`任务ID: ${idRef.current}`}
+      <Input value={nextId} onChange={setNextId} placeholder="请输入任务ID" />
     </Modal>
   );
 };
@@ -43,7 +43,10 @@ export default () => {
         onClick={async () => {
           const res = await openMyModal({ id: taskId });
           if (res.isOk) {
+            Toast.success('任务ID填写成功');
             setTaskId(res.id);
+          } else {
+            Toast.warning('任务ID取消填写');
           }
         }}
       >

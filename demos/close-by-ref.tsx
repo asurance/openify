@@ -1,17 +1,15 @@
 import React, { createRef, forwardRef, useImperativeHandle } from 'react';
-import { Button, Modal, Space } from '@douyinfe/semi-ui';
+import { Button, Modal, Space, Toast } from '@douyinfe/semi-ui';
 import { OpenableProps, openify } from 'openify';
 
-type MyModalProps = OpenableProps<void> & {
-  title: string;
-};
+type MyModalProps = OpenableProps<void>;
 
 type MyModalRef = {
   close: () => void;
 };
 
 const MyModal = forwardRef<MyModalRef, MyModalProps>(
-  ({ visible, onClose, afterClose, title }: MyModalProps, ref) => {
+  ({ visible, onClose, afterClose }: MyModalProps, ref) => {
     useImperativeHandle(
       ref,
       () => ({
@@ -23,12 +21,13 @@ const MyModal = forwardRef<MyModalRef, MyModalProps>(
     );
     return (
       <Modal
-        title={title}
+        title="弹窗"
         visible={visible}
         afterClose={afterClose}
-        closable={false}
+        onOk={onClose}
+        onCancel={onClose}
       >
-        静态打开
+        弹窗内容
       </Modal>
     );
   },
@@ -36,18 +35,23 @@ const MyModal = forwardRef<MyModalRef, MyModalProps>(
 
 const openMyModal = openify(MyModal);
 
-export default () => (
-  <Space>
-    <Button
-      onClick={() => {
-        const ref = createRef<MyModalRef>();
-        openMyModal({ title: '标题', ref });
-        setTimeout(() => {
-          ref.current?.close();
-        }, 1000);
-      }}
-    >
-      打开弹窗
-    </Button>
-  </Space>
-);
+export default () => {
+  return (
+    <Space>
+      <Button
+        onClick={() => {
+          const ref = createRef<MyModalRef>();
+          openMyModal({ ref });
+          Toast.info({
+            content: '即将自动关闭弹窗',
+            onClose: () => {
+              ref.current?.close();
+            },
+          });
+        }}
+      >
+        打开弹窗
+      </Button>
+    </Space>
+  );
+};

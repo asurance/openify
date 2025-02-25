@@ -1,61 +1,42 @@
 {
   "name": "openify",
-  "version": "1.0.0",
-  "types": "./dist/types/index.d.ts",
-  "main": "./dist/lib/index.js",
-  "module": "./dist/es/index.js",
+  "private": true,
+  "version": "2.0.0",
+  "type": "module",
+  "main": "./dist/index.umd.cjs",
+  "module": "./dist/index.js",
+  "exports": {
+    ".": {
+      "import": "./dist/index.js",
+      "require": "./dist/index.umd.cjs"
+    }
+  },
   "scripts": {
-    "prepare": "modern build && husky install",
-    "dev": "modern dev",
-    "build": "modern build",
-    "build:watch": "modern build -w",
-    "build:doc": "modern build --platform",
-    "reset": "rimraf ./**/node_modules",
-    "lint": "modern lint",
-    "change": "modern change",
-    "bump": "modern bump",
-    "pre": "modern pre",
-    "change-status": "modern change-status",
-    "gen-release-note": "modern gen-release-note",
-    "release": "modern release",
-    "new": "modern new",
-    "upgrade": "modern upgrade"
+    "dev": "vite",
+    "build": "tsc -b && vite build",
+    "build:doc": "vite build -c doc.config.ts",
+    "lint": "eslint .",
+    "preview": "vite preview"
   },
-  "lint-staged": {
-    "*.{js,jsx,ts,tsx,mjs,cjs}": [
-      "node --max_old_space_size=8192 ./node_modules/eslint/bin/eslint.js --fix --color --cache --quiet"
-    ]
-  },
-  "eslintIgnore": [
-    "node_modules/",
-    "dist/"
-  ],
   "peerDependencies": {
-    "react": "*",
-    "react-dom": "*"
+    "react": "*"
   },
   "devDependencies": {
-    "@arco-design/web-react": "^2.62.0",
-    "@douyinfe/semi-ui": "^2.59.1",
-    "@modern-js/core": "2.55.0",
-    "@modern-js/eslint-config": "2.56.0",
-    "@modern-js/module-tools": "2.56.0",
-    "@modern-js/plugin-rspress": "1.26.2",
-    "@types/node": "~16.11.68",
-    "@types/react": "^17.0.80",
-    "@types/react-dom": "^17.0.25",
-    "antd": "^5.17.4",
-    "husky": "~8.0.3",
-    "lint-staged": "~13.1.4",
-    "prettier": "~2.8.8",
-    "react": "^17.0.2",
-    "react-dom": "^17.0.2",
-    "rimraf": "~3.0.2",
-    "typescript": "~5.5.2"
-  },
-  "sideEffects": [],
-  "publishConfig": {
-    "access": "public"
-  },
-  "packageManager": "pnpm@9.1.2"
+    "@biomejs/biome": "^1.9.4",
+    "@types/node": "^22.13.4",
+    "@types/react": "^18.3.18",
+    "@types/react-dom": "^18.3.5",
+    "@vitejs/plugin-react-swc": "^3.8.0",
+    "antd": "^5.24.1",
+    "autoprefixer": "^10.4.20",
+    "globals": "^15.15.0",
+    "motion": "^12.4.3",
+    "postcss": "^8.5.2",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "tailwindcss": "^3.4.17",
+    "typescript": "~5.6.3",
+    "vite": "^6.1.0",
+    "vite-plugin-dts": "^4.5.0"
+  }
 }

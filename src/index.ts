@@ -1,3 +1,2 @@
-export { openify } from './openify';
-
-export type * from './interface';
+export type * from "./interface";
+export { openify } from "./core";

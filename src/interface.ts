@@ -1,32 +1,37 @@
-import { ReactElement } from 'react';
+import type { ErrorInfo } from "react";
 
-export type IsVoid<Value> = void extends Value
-  ? true
-  : undefined extends Value
-  ? true
-  : false;
-
-export type OnCloseFn<Value> = IsVoid<Value> extends true
-  ? () => void
-  : (value: Value) => void;
-
-export type PropsName = 'visible' | 'onClose' | 'afterClose';
-
-export type OpenifyRenderHook = (
-  node: ReactElement,
-  onError: () => void,
-) => ReactElement;
-
-export type OpenableProps<Value = any> = {
+export type OpenParams<Result> = {
   visible: boolean;
-  onClose: OnCloseFn<Value>;
+  onClose: [Result] extends [undefined] ? () => void : (result: Result) => void;
   afterClose: () => void;
 };
 
-export type OpenResult<OpenProps extends OpenableProps<any>> = Parameters<
-  OpenProps['onClose']
->[0];
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export type ExtraParams<Params> = Params extends OpenParams<any>
+  ? Omit<Params, "visible" | "onClose" | "afterClose">
+  : never;
 
-export type OpenifyConfig<OpenProps extends OpenableProps, ModalProps> = {
-  transformProps?: (props: OpenProps) => ModalProps;
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export type OpenResult<Params extends OpenParams<any>> = Parameters<
+  Params["onClose"]
+>["0"];
+
+export type OpenifyError = Error & { info: ErrorInfo };
+
+export type PromiseRef<Result> = {
+  resolve: (result: Result) => void;
+  reject: (reason: OpenifyError) => void;
+};
+
+export type OpenableCompState = {
+  visible: boolean;
+  mount: boolean;
+};
+
+export type OpenFn<Params, Result> = keyof Params extends never
+  ? () => Promise<Result>
+  : (params: Params) => Promise<Result>;
+
+export type OpenFnRef<Params, Result> = {
+  current: OpenFn<Params, Result> | null;
 };

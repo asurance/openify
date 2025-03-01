@@ -3,18 +3,23 @@ import type {
   OpenableCompState,
   OpenifyError,
   PromiseRef,
-  OpenFnRef,
   OpenParams,
   ExtraParams,
   OpenResult,
   OpenFn,
+  CloseFn,
+  NullableRef,
 } from "./interface";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function openify<Params extends OpenParams<any>>(
   fn: (props: Params) => ReactNode
 ) {
-  const openRef: OpenFnRef<ExtraParams<Params>, OpenResult<Params>> = {
+  const openRef: NullableRef<OpenFn<ExtraParams<Params>, OpenResult<Params>>> =
+    {
+      current: null,
+    };
+  const closeRef: NullableRef<CloseFn<OpenResult<Params>>> = {
     current: null,
   };
   const openable = class extends PureComponent<
@@ -22,6 +27,7 @@ export function openify<Params extends OpenParams<any>>(
     OpenableCompState
   > {
     static open: OpenFn<ExtraParams<Params>, OpenResult<Params>>;
+    static close: CloseFn<OpenResult<Params>>;
 
     _currentParams = {} as ExtraParams<Params>;
     _promiseRef: PromiseRef<OpenResult<Params>> | null = null;
@@ -41,7 +47,7 @@ export function openify<Params extends OpenParams<any>>(
       });
     };
 
-    _onClose = (result: OpenResult<Params>) => {
+    _onClose = (result?: OpenResult<Params>) => {
       this.setState((prev) => ({ ...prev, visible: false }));
       if (this._promiseRef) {
         this._promiseRef.resolve(result);
@@ -55,6 +61,7 @@ export function openify<Params extends OpenParams<any>>(
 
     componentDidMount() {
       openRef.current = this._open;
+      closeRef.current = this._onClose;
     }
 
     componentWillUnmount() {
@@ -71,7 +78,6 @@ export function openify<Params extends OpenParams<any>>(
     }
 
     render() {
-      console.log("openify render");
       const { visible, mount } = this.state;
       return mount
         ? fn({
@@ -89,5 +95,10 @@ export function openify<Params extends OpenParams<any>>(
     }
     throw new Error("为找到对应的组件实例");
   }) as OpenFn<ExtraParams<Params>, OpenResult<Params>>;
+  openable.close = ((extraParams: OpenResult<Params>) => {
+    if (closeRef.current) {
+      closeRef.current(extraParams);
+    }
+  }) as CloseFn<OpenResult<Params>>;
   return openable;
 }

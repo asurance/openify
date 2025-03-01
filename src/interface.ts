@@ -32,6 +32,10 @@ export type OpenFn<Params, Result> = keyof Params extends never
   ? () => Promise<Result>
   : (params: Params) => Promise<Result>;
 
-export type OpenFnRef<Params, Result> = {
-  current: OpenFn<Params, Result> | null;
+export type CloseFn<Params> = [Params] extends [undefined]
+  ? () => void
+  : (params: Params) => void;
+
+export type NullableRef<Current> = {
+  current: Current | null;
 };

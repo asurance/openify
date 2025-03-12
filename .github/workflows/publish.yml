@@ -1,0 +1,50 @@
+name: Publish Production
+
+on:
+    workflow_dispatch:
+        type:
+            description: 发布类型
+            required: true
+            default: patch
+            type: choice
+            options:
+                - patch
+                - minor
+                - major
+        tag:
+            description: 发布标签
+            required: true
+            default: latest
+            type: choice
+            options:
+                - latest
+                - beta
+                - alpha
+
+jobs:
+    publish:
+        runs-on: ubuntu-latest
+
+        steps:
+            - name: Echo
+              run: | 
+                echo type ${{ inputs.type }}
+                echo tag ${{ inputs.tag }}
+
+            - name: Checkout
+              uses: actions/checkout@v4
+      
+            - name: Setup PNPM
+              uses: pnpm/action-setup@v4
+      
+            - name: Setup Node
+              uses: actions/setup-node@v4
+              with:
+                cache: pnpm
+                registry-url: https://registry.npmjs.org/
+      
+            - name: Install dependencies
+              run: pnpm install
+      
+            - name: Build Package
+              run: pnpm build

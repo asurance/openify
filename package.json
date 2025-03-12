@@ -1,42 +1,45 @@
 {
-  "name": "openify",
-  "private": true,
-  "version": "2.0.0",
-  "type": "module",
-  "main": "./dist/index.umd.cjs",
-  "module": "./dist/index.js",
-  "exports": {
-    ".": {
-      "import": "./dist/index.js",
-      "require": "./dist/index.umd.cjs"
+    "name": "openify",
+    "private": true,
+    "version": "1.0.0",
+    "type": "module",
+    "main": "./dist/index.umd.cjs",
+    "files": ["dist"],
+    "module": "./dist/index.js",
+    "exports": {
+        ".": {
+            "import": "./dist/index.js",
+            "require": "./dist/index.umd.cjs"
+        }
+    },
+    "scripts": {
+        "dev": "vite",
+        "build": "tsc -b && vite build",
+        "build:doc": "vite build -c doc.config.ts",
+        "lint": "biome check --fix",
+        "preview": "vite preview"
+    },
+    "peerDependencies": {
+        "react": "*"
+    },
+    "devDependencies": {
+        "@biomejs/biome": "^1.9.4",
+        "@types/node": "^22.13.4",
+        "@types/react": "^18.3.18",
+        "@types/react-dom": "^18.3.5",
+        "@vitejs/plugin-react-swc": "^3.8.0",
+        "ahooks": "^3.8.4",
+        "antd": "^5.24.1",
+        "autoprefixer": "^10.4.20",
+        "codehike": "^1.0.4",
+        "globals": "^15.15.0",
+        "motion": "^12.4.3",
+        "postcss": "^8.5.2",
+        "react": "^18.3.1",
+        "react-dom": "^18.3.1",
+        "tailwindcss": "^3.4.17",
+        "typescript": "~5.6.3",
+        "vite": "^6.1.0",
+        "vite-plugin-dts": "^4.5.0"
     }
-  },
-  "scripts": {
-    "dev": "vite",
-    "build": "tsc -b && vite build",
-    "build:doc": "vite build -c doc.config.ts",
-    "lint": "eslint .",
-    "preview": "vite preview"
-  },
-  "peerDependencies": {
-    "react": "*"
-  },
-  "devDependencies": {
-    "@biomejs/biome": "^1.9.4",
-    "@types/node": "^22.13.4",
-    "@types/react": "^18.3.18",
-    "@types/react-dom": "^18.3.5",
-    "@vitejs/plugin-react-swc": "^3.8.0",
-    "antd": "^5.24.1",
-    "autoprefixer": "^10.4.20",
-    "globals": "^15.15.0",
-    "motion": "^12.4.3",
-    "postcss": "^8.5.2",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tailwindcss": "^3.4.17",
-    "typescript": "~5.6.3",
-    "vite": "^6.1.0",
-    "vite-plugin-dts": "^4.5.0"
-  }
 }

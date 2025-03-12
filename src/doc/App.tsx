@@ -1,39 +1,31 @@
-import { motion } from "motion/react";
-import { OpenableNormalModal, OpenableSimpleModal } from "./OpenableModal";
-import { Button, message } from "antd";
+import { Radio } from "antd";
+import { useState } from "react";
+import CodeBlock from "./components/CodeBlock";
+const cmdMap = {
+    npm: "npm install openify",
+    yarn: "yarn add openify",
+    pnpm: "pnpm add openify",
+};
 const App = () => {
-  return (
-    <div>
-      <motion.div
-        className="min-h-screen flex flex-col justify-center items-center text-3xl font-bold text-blue-500"
-        animate={{ scale: 3 }}
-      >
-        Welcome to Openify
-      </motion.div>
-      <Button
-        onClick={async () => {
-          const result = await OpenableNormalModal.open({ id: "123" });
-          if (result === null) {
-            message.warning("弹窗取消");
-          } else {
-            message.success(`弹窗关闭，拿到结果: ${result}`);
-          }
-        }}
-      >
-        打开弹窗
-      </Button>
-      <Button
-        onClick={async () => {
-          await OpenableSimpleModal.open();
-          message.success("弹窗关闭");
-        }}
-      >
-        打开弹窗2
-      </Button>
-      <OpenableNormalModal />
-      <OpenableSimpleModal />
-    </div>
-  );
+    const [current, setCurrent] = useState<keyof typeof cmdMap>("npm");
+    return (
+        <div>
+            <div>Welcone to Openify</div>
+            <Radio.Group
+                value={current}
+                onChange={(e) => setCurrent(e.target.value)}
+            >
+                <Radio.Button value="npm">npm</Radio.Button>
+                <Radio.Button value="yarn">yarn</Radio.Button>
+                <Radio.Button value="pnpm">pnpm</Radio.Button>
+            </Radio.Group>
+            <CodeBlock code={cmdMap[current]} lang="bash" />
+            <div>快速开始</div>
+            <div>设计目标</div>
+            <div>为什么需要openify</div>
+            <div>更多例子</div>
+        </div>
+    );
 };
 
 export default App;

@@ -5,20 +5,20 @@ import dts from "vite-plugin-dts";
 
 // https://vite.dev/config/
 export default defineConfig({
-  build: {
-    lib: {
-      entry: resolve(__dirname, "src/index.ts"),
-      name: "openify",
-      fileName: "index",
-    },
-    rollupOptions: {
-      external: ["react"],
-      output: {
-        globals: {
-          react: "React",
+    build: {
+        lib: {
+            entry: resolve(__dirname, "src/index.ts"),
+            name: "openify",
+            fileName: "index",
         },
-      },
+        rollupOptions: {
+            external: ["react"],
+            output: {
+                globals: {
+                    react: "React",
+                },
+            },
+        },
     },
-  },
-  plugins: [react(), dts({ tsconfigPath: "./tsconfig.build.json" })],
+    plugins: [react(), dts({ tsconfigPath: "./tsconfig.build.json" })],
 });

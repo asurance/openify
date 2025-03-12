@@ -1,104 +1,66 @@
 import { type ErrorInfo, PureComponent, type ReactNode } from "react";
 import type {
-  OpenableCompState,
-  OpenifyError,
-  PromiseRef,
-  OpenParams,
-  ExtraParams,
-  OpenResult,
-  OpenFn,
-  CloseFn,
-  NullableRef,
+    ExtraParams,
+    OpenParams,
+    OpenResult,
+    OpenableCompState,
+    OpenifyError,
+    PromiseRef,
 } from "./interface";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function openify<Params extends OpenParams<any>>(
-  fn: (props: Params) => ReactNode
+    fn: (props: Params) => ReactNode,
 ) {
-  const openRef: NullableRef<OpenFn<ExtraParams<Params>, OpenResult<Params>>> =
-    {
-      current: null,
+    const openable = class extends PureComponent<
+        Record<string, unknown>,
+        OpenableCompState
+    > {
+        _currentParams = {} as ExtraParams<Params>;
+        _promiseRef: PromiseRef<OpenResult<Params>> | null = null;
+        constructor(props: Record<string, unknown>) {
+            super(props);
+            this.state = {
+                visible: false,
+            };
+        }
+
+        open = (params?: ExtraParams<Params>) => {
+            this._currentParams = params || ({} as ExtraParams<Params>);
+            this.setState((prev) => ({ ...prev, visible: true }));
+        };
+
+        close = (result?: OpenResult<Params>) => {
+            this._onClose(result);
+        };
+
+        onClose: ((result?: OpenResult<Params>) => void) | null = null;
+        onError: ((error: OpenifyError) => void) | null = null;
+        afterClose: (() => void) | null = null;
+
+        _onClose = (result?: OpenResult<Params>) => {
+            this.setState((prev) => ({ ...prev, visible: false }));
+            this.onClose?.(result);
+        };
+
+        _onAfterClose = () => {
+            this.afterClose?.();
+        };
+
+        componentDidCatch(error: Error, errorInfo: ErrorInfo) {
+            (error as OpenifyError).info = errorInfo;
+            this.onError?.(error as OpenifyError);
+        }
+
+        render() {
+            const { visible } = this.state;
+            return fn({
+                visible,
+                onClose: this._onClose,
+                afterClose: this._onAfterClose,
+                ...this._currentParams,
+            } as unknown as Params);
+        }
     };
-  const closeRef: NullableRef<CloseFn<OpenResult<Params>>> = {
-    current: null,
-  };
-  const openable = class extends PureComponent<
-    Record<string, unknown>,
-    OpenableCompState
-  > {
-    static open: OpenFn<ExtraParams<Params>, OpenResult<Params>>;
-    static close: CloseFn<OpenResult<Params>>;
-
-    _currentParams = {} as ExtraParams<Params>;
-    _promiseRef: PromiseRef<OpenResult<Params>> | null = null;
-    constructor(props: Record<string, unknown>) {
-      super(props);
-      this.state = {
-        visible: false,
-        mount: false,
-      };
-    }
-
-    _open = (params?: ExtraParams<Params>) => {
-      this._currentParams = params || ({} as ExtraParams<Params>);
-      this.setState((prev) => ({ ...prev, visible: true, mount: true }));
-      return new Promise<OpenResult<Params>>((resolve, reject) => {
-        this._promiseRef = { resolve, reject };
-      });
-    };
-
-    _onClose = (result?: OpenResult<Params>) => {
-      this.setState((prev) => ({ ...prev, visible: false }));
-      if (this._promiseRef) {
-        this._promiseRef.resolve(result);
-        this._promiseRef = null;
-      }
-    };
-
-    _onAfterClose = () => {
-      this.setState((prev) => ({ ...prev, mount: false }));
-    };
-
-    componentDidMount() {
-      openRef.current = this._open;
-      closeRef.current = this._onClose;
-    }
-
-    componentWillUnmount() {
-      openRef.current = null;
-    }
-
-    componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-      this.setState((prev) => ({ ...prev, mount: false }));
-      if (this._promiseRef) {
-        (error as OpenifyError).info = errorInfo;
-        this._promiseRef.reject(error as OpenifyError);
-        this._promiseRef = null;
-      }
-    }
-
-    render() {
-      const { visible, mount } = this.state;
-      return mount
-        ? fn({
-            visible,
-            onClose: this._onClose,
-            afterClose: this._onAfterClose,
-            ...this._currentParams,
-          } as unknown as Params)
-        : null;
-    }
-  };
-  openable.open = ((extraParams: ExtraParams<Params>) => {
-    if (openRef.current) {
-      return openRef.current(extraParams);
-    }
-    throw new Error("为找到对应的组件实例");
-  }) as OpenFn<ExtraParams<Params>, OpenResult<Params>>;
-  openable.close = ((extraParams: OpenResult<Params>) => {
-    if (closeRef.current) {
-      closeRef.current(extraParams);
-    }
-  }) as CloseFn<OpenResult<Params>>;
-  return openable;
+    return openable;
 }

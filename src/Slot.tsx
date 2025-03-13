@@ -1,17 +1,30 @@
-import {
-    type ComponentType,
-    type ReactElement,
-    useLayoutEffect,
-    useRef,
-    useState,
-} from "react";
-
-export type PlaceholderProps = {
-    id: string;
-};
+import { type ReactElement, useLayoutEffect, useRef, useState } from "react";
+import type {
+    CancelablePromise,
+    ExtraParams,
+    OpenifyError,
+    OpenParams,
+    OpenResult,
+} from "./interface";
+import type { openify } from "./core";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-const slotMap = new Map<any, any>();
+export type SlotId = any;
+
+export type PlaceholderProps = {
+    id: SlotId;
+};
+
+const slotMap = new Map<
+    SlotId,
+    {
+        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+        openModal: <Params extends OpenParams<any>>(
+            Comp: ReturnType<typeof openify<Params>>,
+            props: ExtraParams<Params>,
+        ) => CancelablePromise<OpenResult<Params>>;
+    }
+>();
 
 const Slot = ({ id }: PlaceholderProps) => {
     const [insMap, setInsMap] = useState<Record<string, ReactElement>>({});
@@ -19,50 +32,51 @@ const Slot = ({ id }: PlaceholderProps) => {
 
     useLayoutEffect(() => {
         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        const openModal = (Comp: ComponentType<any>, props: any) => {
+        const openModal = <Params extends OpenParams<any>>(
+            Comp: ReturnType<typeof openify<Params>>,
+            props: ExtraParams<Params>,
+        ): CancelablePromise<OpenResult<Params>> => {
             const currentKey = keyRef.current;
             const currentRef = {
-                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-                current: null as any,
+                current: null as InstanceType<
+                    ReturnType<typeof openify<Params>>
+                > | null,
             };
             keyRef.current += 1;
-            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-            const promise = new Promise<any>((resolve, reject) => {
-                const clear = () => {
-                    setInsMap((prev) => {
-                        const { [currentKey]: _, ...rest } = prev;
-                        return rest;
-                    });
-                };
-                const ins = (
-                    <Comp
-                        key={currentKey}
-                        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-                        ref={(ref: any) => {
-                            currentRef.current = ref;
-                            if (ref) {
-                                ref.onClose = resolve;
-                                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-                                ref.onError = (reason: any) => {
-                                    reject(reason);
-                                    clear();
-                                };
-                                ref.afterClose = clear;
-                                ref.open(props);
-                            }
-                        }}
-                    />
-                );
-                setInsMap((prev) => ({ ...prev, [currentKey]: ins }));
-                return () => {
-                    currentRef.current;
-                };
-                // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-            }) as any;
-            // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-            promise.cancel = (props: any) => {
+            const promise = new Promise<OpenResult<Params>>(
+                (resolve, reject) => {
+                    const clear = () => {
+                        setInsMap((prev) => {
+                            const { [currentKey]: _, ...rest } = prev;
+                            return rest;
+                        });
+                    };
+                    const ins = (
+                        <Comp
+                            key={currentKey}
+                            ref={(ref) => {
+                                currentRef.current = ref;
+                                if (ref) {
+                                    ref.onClose = resolve;
+                                    ref.onError = (reason: OpenifyError) => {
+                                        reject(reason);
+                                        clear();
+                                    };
+                                    ref.afterClose = clear;
+                                    ref.open(props);
+                                }
+                            }}
+                        />
+                    );
+                    setInsMap((prev) => ({ ...prev, [currentKey]: ins }));
+                    return () => {
+                        currentRef.current;
+                    };
+                },
+            ) as CancelablePromise<OpenResult<Params>>;
+            promise.cancel = (result) => {
                 if (currentRef.current) {
-                    currentRef.current.close(props);
+                    currentRef.current.close(result);
                 }
             };
             return promise;
@@ -75,8 +89,7 @@ const Slot = ({ id }: PlaceholderProps) => {
     return <>{Object.keys(insMap).map((key) => insMap[key])}</>;
 };
 
-// biome-ignore lint/suspicious/noExplicitAny: <explanation>
-Slot.getById = (id: any) => {
+Slot.getById = (id: SlotId) => {
     return slotMap.get(id);
 };
 

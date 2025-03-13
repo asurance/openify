@@ -40,3 +40,7 @@ export type CloseFn<Params> = [Params] extends [undefined]
 export type NullableRef<Current> = {
     current: Current | null;
 };
+
+export type CancelablePromise<Result> = Promise<Result> & {
+    cancel: (result: Result) => void;
+};

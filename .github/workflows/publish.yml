@@ -2,6 +2,7 @@ name: Publish Production
 
 on:
     workflow_dispatch:
+      inputs:
         type:
             description: 发布类型
             required: true

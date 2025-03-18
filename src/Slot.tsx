@@ -1,30 +1,47 @@
 import { type ReactElement, useLayoutEffect, useRef, useState } from "react";
 import type {
-    CancelablePromise,
     ExtraParams,
     OpenifyError,
     OpenParams,
     OpenResult,
-} from "./interface";
-import type { openify } from "./core";
+} from "./openify";
+import type { openify } from "./openify";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type SlotId = any;
+
+export type CancelablePromise<Result> = [Result] extends [undefined]
+    ? Promise<Result> & {
+          cancel: () => void;
+      }
+    : Promise<Result> & {
+          cancel: (result: Result) => void;
+      };
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export type OpenFn<Params extends OpenParams<any>> =
+    keyof ExtraParams<Params> extends never
+        ? (
+              Comp: ReturnType<typeof openify<Params>>,
+          ) => CancelablePromise<OpenResult<Params>>
+        : (
+              Comp: ReturnType<typeof openify<Params>>,
+              props: ExtraParams<Params>,
+          ) => CancelablePromise<OpenResult<Params>>;
 
 export type PlaceholderProps = {
     id: SlotId;
 };
 
-const slotMap = new Map<
-    SlotId,
-    {
-        // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        openModal: <Params extends OpenParams<any>>(
-            Comp: ReturnType<typeof openify<Params>>,
-            props: ExtraParams<Params>,
-        ) => CancelablePromise<OpenResult<Params>>;
-    }
->();
+export interface SlotOperation {
+    // biome-ignore lint/suspicious/noExplicitAny: <explanation>
+    open<Params extends OpenParams<any>>(
+        Comp: ReturnType<typeof openify<Params>>,
+        props?: ExtraParams<Params>,
+    ): CancelablePromise<OpenResult<Params>>;
+}
+
+const slotMap = new Map<SlotId, SlotOperation>();
 
 const Slot = ({ id }: PlaceholderProps) => {
     const [insMap, setInsMap] = useState<Record<string, ReactElement>>({});
@@ -32,7 +49,7 @@ const Slot = ({ id }: PlaceholderProps) => {
 
     useLayoutEffect(() => {
         // biome-ignore lint/suspicious/noExplicitAny: <explanation>
-        const openModal = <Params extends OpenParams<any>>(
+        const open = <Params extends OpenParams<any>>(
             Comp: ReturnType<typeof openify<Params>>,
             props: ExtraParams<Params>,
         ): CancelablePromise<OpenResult<Params>> => {
@@ -81,7 +98,7 @@ const Slot = ({ id }: PlaceholderProps) => {
             };
             return promise;
         };
-        slotMap.set(id, { openModal });
+        slotMap.set(id, { open });
         return () => {
             slotMap.delete(id);
         };
@@ -90,7 +107,8 @@ const Slot = ({ id }: PlaceholderProps) => {
 };
 
 Slot.getById = (id: SlotId) => {
-    return slotMap.get(id);
+    // biome-ignore lint/style/noNonNullAssertion: <explanation>
+    return slotMap.get(id)!;
 };
 
 export default Slot;

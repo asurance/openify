@@ -1,6 +1,9 @@
-import { Radio } from "antd";
+import { Button, message, Radio } from "antd";
 import { useState } from "react";
 import CodeBlock from "./components/CodeBlock";
+import { Slot } from "openify";
+import { OpenableNormalModal, OpenableSimpleModal } from "./OpenableModal";
+import { openableNormalDrawer } from "./NormalDrawer";
 const cmdMap = {
     npm: "npm install openify",
     yarn: "yarn add openify",
@@ -24,6 +27,38 @@ const App = () => {
             <div>设计目标</div>
             <div>为什么需要openify</div>
             <div>更多例子</div>
+            <Button
+                onClick={async () => {
+                    const res = await Slot.getById("root").open(
+                        OpenableNormalModal,
+                        {
+                            id: "123",
+                        },
+                    );
+                    message.success(`弹窗返回: ${res}`);
+                }}
+            >
+                测试
+            </Button>
+
+            <Button
+                onClick={async () => {
+                    await Slot.getById("root").open(OpenableSimpleModal);
+                }}
+            >
+                测试2
+            </Button>
+
+            <Button
+                onClick={async () => {
+                    await Slot.getById("root").open(openableNormalDrawer, {
+                        id: "234",
+                    });
+                }}
+            >
+                测试3
+            </Button>
+            <Slot id="root" />
         </div>
     );
 };

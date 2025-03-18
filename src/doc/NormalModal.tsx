@@ -16,6 +16,7 @@ const NormalModal = ({
     afterClose,
 }: NormalModalProps) => {
     const [form] = Form.useForm<{ id: string }>();
+    console.log("render normal modal");
     return (
         <Modal
             open={open}

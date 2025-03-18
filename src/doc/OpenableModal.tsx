@@ -1,5 +1,5 @@
-import { openify } from "..";
-import type { OpenParams } from "..";
+import { openify } from "openify";
+import type { OpenParams } from "openify";
 import NormalModal from "./NormalModal";
 import SimpleModal from "./SimpleModal";
 

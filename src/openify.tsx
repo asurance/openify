@@ -1,12 +1,34 @@
 import { type ErrorInfo, PureComponent, type ReactNode } from "react";
-import type {
-    ExtraParams,
-    OpenParams,
-    OpenResult,
-    OpenableCompState,
-    OpenifyError,
-    PromiseRef,
-} from "./interface";
+
+export type OpenParams<Result> = {
+    visible: boolean;
+    onClose: [Result] extends [undefined]
+        ? () => void
+        : (result: Result) => void;
+    afterClose: () => void;
+};
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export type ExtraParams<Params> = Params extends OpenParams<any>
+    ? Omit<Params, "visible" | "onClose" | "afterClose">
+    : never;
+
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export type OpenResult<Params extends OpenParams<any>> = Parameters<
+    Params["onClose"]
+>["0"];
+
+export type OpenifyError = Error & { info: ErrorInfo };
+
+export type PromiseRef<Result> = {
+    resolve: (result: Result) => void;
+    reject: (reason: OpenifyError) => void;
+};
+
+export type OpenableCompState = {
+    visible: boolean;
+    hasError: boolean;
+};
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export function openify<Params extends OpenParams<any>>(
@@ -16,12 +38,20 @@ export function openify<Params extends OpenParams<any>>(
         Record<string, unknown>,
         OpenableCompState
     > {
+        static getDerivedStateFromError() {
+            return {
+                visible: false,
+                hasError: true,
+            };
+        }
+
         _currentParams = {} as ExtraParams<Params>;
         _promiseRef: PromiseRef<OpenResult<Params>> | null = null;
         constructor(props: Record<string, unknown>) {
             super(props);
             this.state = {
                 visible: false,
+                hasError: false,
             };
         }
 
@@ -53,7 +83,11 @@ export function openify<Params extends OpenParams<any>>(
         }
 
         render() {
-            const { visible } = this.state;
+            const { visible, hasError } = this.state;
+            console.log("render", visible, hasError);
+            if (hasError) {
+                return null;
+            }
             return fn({
                 visible,
                 onClose: this._onClose,

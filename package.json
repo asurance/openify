@@ -15,13 +15,13 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "tsc -b && vite build",
+        "build": "tsc -p tsconfig.build.json && vite build",
         "build:doc": "vite build -c doc.config.ts",
         "lint": "biome check --fix",
         "preview": "vite preview"
     },
     "peerDependencies": {
-        "react": "*"
+        "react": ">=17.0.0"
     },
     "devDependencies": {
         "@biomejs/biome": "^1.9.4",

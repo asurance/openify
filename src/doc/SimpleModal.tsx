@@ -7,6 +7,7 @@ export type SimpleModalProps = {
 };
 
 const SimpleModal = ({ open, onClose, afterClose }: SimpleModalProps) => {
+    console.log("render simple model");
     return (
         <Modal
             title="样板弹窗"

@@ -1,6 +1,5 @@
 import Slot from "./Slot";
-export type * from "./interface";
-export type * from "./core";
+export type * from "./openify";
 export type * from "./Slot";
-export { openify } from "./core";
+export { openify } from "./openify";
 export { Slot };

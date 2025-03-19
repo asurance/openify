@@ -84,7 +84,6 @@ export function openify<Params extends OpenParams<any>>(
 
         render() {
             const { visible, hasError } = this.state;
-            console.log("render", visible, hasError);
             if (hasError) {
                 return null;
             }

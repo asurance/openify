@@ -12,14 +12,14 @@ export default defineConfig({
             fileName: "index",
         },
         rollupOptions: {
-            external: ["react","react/jsx-runtime"],
+            external: ["react", "react/jsx-runtime"],
             output: {
                 globals: {
                     react: "React",
-                    "react/jsx-runtime":"react/jsx-runtime"
+                    "react/jsx-runtime": "react/jsx-runtime",
                 },
             },
         },
     },
-    plugins: [react(), dts({ tsconfigPath: "./tsconfig.build.json" })],
+    plugins: [react(), dts({ tsconfigPath: "./tsconfig.app.json" })],
 });

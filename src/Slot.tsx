@@ -1,9 +1,9 @@
 import { type ReactElement, useLayoutEffect, useRef, useState } from "react";
 import type {
     ExtraParams,
-    OpenifyError,
     OpenParams,
     OpenResult,
+    OpenifyError,
 } from "./openify";
 import type { openify } from "./openify";
 

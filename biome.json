@@ -7,7 +7,7 @@
     },
     "files": {
         "ignoreUnknown": false,
-        "ignore": ["dist"]
+        "ignore": ["dist", "docs/.vitepress/cache"]
     },
     "formatter": {
         "enabled": true,

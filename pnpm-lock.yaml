@@ -50,6 +50,9 @@ importers:
       vitepress:
         specifier: ^1.6.3
         version: 1.6.3(@algolia/client-search@5.21.0)(@types/node@22.13.4)(@types/react@18.3.18)(postcss@8.5.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.6.3)
+      vitepress-plugin-group-icons:
+        specifier: ^1.3.8
+        version: 1.3.8
 
 packages:
 
@@ -158,6 +161,12 @@ packages:
     resolution: {integrity: sha512-EzlvzE6xQUBrZuuhSAFTdsr4P2bBBHGZwKFemEfq8gIGyIQCxalYfZW/T2ORbtQx5rU69o+WycP3exY/7T1hGA==}
     peerDependencies:
       react: '>=16.9.0'
+
+  '@antfu/install-pkg@1.0.0':
+    resolution: {integrity: sha512-xvX6P/lo1B3ej0OsaErAjqgFYzYVcJpamjLAFLYh9vRJngBrMoUG7aVnrGTeqM7yxbyTD5p3F2+0/QUEh8Vzhw==}
+
+  '@antfu/utils@8.1.1':
+    resolution: {integrity: sha512-Mex9nXf9vR6AhcXmMrlz/HVgYYZpVGJ6YlPgwl7UnaFpnshXs6EK/oa5Gpf3CzENMjkvEx2tQtntGnb7UtSTOQ==}
 
   '@babel/helper-string-parser@7.25.9':
     resolution: {integrity: sha512-4A/SCr/2KLd5jrtOMFzaKjVtAei3+2r/NChoBNoZ3EyP/+GlhoaEGoWOZUmFmoITP7zOJyHIMm+DYRd8o3PvHA==}
@@ -550,11 +559,20 @@ packages:
     cpu: [x64]
     os: [win32]
 
+  '@iconify-json/logos@1.2.4':
+    resolution: {integrity: sha512-XC4If5D/hbaZvUkTV8iaZuGlQCyG6CNOlaAaJaGa13V5QMYwYjgtKk3vPP8wz3wtTVNVEVk3LRx1fOJz+YnSMw==}
+
   '@iconify-json/simple-icons@1.2.29':
     resolution: {integrity: sha512-KYrxmxtRz6iOAulRiUsIBMUuXek+H+Evwf8UvYPIkbQ+KDoOqTegHx3q/w3GDDVC0qJYB+D3hXPMZcpm78qIuA==}
 
+  '@iconify-json/vscode-icons@1.2.17':
+    resolution: {integrity: sha512-7ge4lTxBMpxEE8SGZ3ytjsLOWEip35B+6HJIKPep8gnoqZHTTT5bYDNDkx3iSganyaTviOvBuarzz5Z7Rg62Iw==}
+
   '@iconify/types@2.0.0':
     resolution: {integrity: sha512-+wluvCrRhXrhyOmRDJ3q8mux9JkKy5SJ/v8ol2tu4FVjyYvtEzkc/3pK15ET6RKg4b4w4BmTk1+gsCUhf21Ykg==}
+
+  '@iconify/utils@2.3.0':
+    resolution: {integrity: sha512-GmQ78prtwYW6EtzXRU1rY+KwOKfz32PD7iJh6Iyqw68GiKuoZ2A6pRtzWONz5VQJbp50mEjXh/7NkumtrAgRKA==}
 
   '@jridgewell/sourcemap-codec@1.5.0':
     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
@@ -1104,6 +1122,9 @@ packages:
   confbox@0.1.8:
     resolution: {integrity: sha512-RMtmw0iFkeR4YV+fUOSucriAQNb9g8zFR52MWCtl+cCZOFRNL6zeB395vPzFhEjjn4fMxXudmELnl/KF/WrK6w==}
 
+  confbox@0.2.1:
+    resolution: {integrity: sha512-hkT3yDPFbs95mNCy1+7qNKC6Pro+/ibzYxtM2iqEigpf0sVw+bg4Zh9/snjsBcf990vfIsg5+1U7VyiyBb3etg==}
+
   copy-anything@3.0.5:
     resolution: {integrity: sha512-yCEafptTtb4bk7GLEQoM8KVJpxAfdBJYaXyzQEgQQQgYrZiDp8SJmGKlYza6CYjEDNstAdNdKA3UuoULlEbS6w==}
     engines: {node: '>=12.13'}
@@ -1155,6 +1176,9 @@ packages:
 
   estree-walker@2.0.2:
     resolution: {integrity: sha512-Rfkk/Mp/DL7JVje3u18FxFujQlTNR2q6QfMSMB7AvCBx91NGj/ba3kCfza0f6dVDbw7YlRf/nDrn7pQrCCyQ/w==}
+
+  exsolve@1.0.4:
+    resolution: {integrity: sha512-xsZH6PXaER4XoV+NiT7JHp1bJodJVT+cxeSH1G0f0tlT0lJqYuHUP3bUx2HtfTDvOagMINYp8rsqusxud3RXhw==}
 
   fast-deep-equal@3.1.3:
     resolution: {integrity: sha512-f3qQ9oQy9j2AhBe/H9VC91wLmKBCCU/gDOnKNAYG5hswO7BLKj09Hc5HYNz9cGI++xlpDCIgDaitVs03ATR84Q==}
@@ -1250,6 +1274,10 @@ packages:
     resolution: {integrity: sha512-9rrA30MRRP3gBD3HTGnC6cDFpaE1kVDWxWgqWJUN0RvDNAo+Nz/9GxB+nHOH0ifbVFy0hSA1V6vFDvnx54lTEQ==}
     engines: {node: '>=14'}
 
+  local-pkg@1.1.1:
+    resolution: {integrity: sha512-WunYko2W1NcdfAFpuLUoucsgULmgDBRkdxHxWQ7mK0cQqwPiy8E1enjuRBrhLtZkB5iScJ1XIPdhVEFK8aOLSg==}
+    engines: {node: '>=14'}
+
   lodash@4.17.21:
     resolution: {integrity: sha512-v2kDEe57lecTulaDIuNTPy3Ry4gLGJ6Z1O3vE1krgXZNrsQ+LFTGHVxVjcXPs17LhbZVGedAJv8XZ1tvj5FvSg==}
 
@@ -1315,6 +1343,9 @@ packages:
   oniguruma-to-es@3.1.1:
     resolution: {integrity: sha512-bUH8SDvPkH3ho3dvwJwfonjlQ4R80vjyvrU8YpxuROddv55vAEJrTuCuCVUhhsHbtlD9tGGbaNApGQckXhS8iQ==}
 
+  package-manager-detector@0.2.11:
+    resolution: {integrity: sha512-BEnLolu+yuz22S56CU1SUKq3XC3PkwD5wv4ikR4MfGvnRVcmzXR9DwSlW2fEamyTPyXHomBJRzgapeuBvRNzJQ==}
+
   path-browserify@1.0.1:
     resolution: {integrity: sha512-b7uo2UCUOYZcnF/3ID0lulOJi/bafxa1xPe7ZPsammBSpjSWQkjNxlt635YGS2MiR9GjvuXCtz2emr3jbsz98g==}
 
@@ -1337,6 +1368,9 @@ packages:
   pkg-types@1.3.1:
     resolution: {integrity: sha512-/Jm5M4RvtBFVkKWRu2BLUTNP8/M2a+UwuAX+ae4770q1qVGtfjG+WTCupoZixokjmHiry8uI+dlY8KXYV5HVVQ==}
 
+  pkg-types@2.1.0:
+    resolution: {integrity: sha512-wmJwA+8ihJixSoHKxZJRBQG1oY8Yr9pGLzRmSsNms0iNWyHHAlZCa7mmKiFR10YPZuz/2k169JiS/inOjBCZ2A==}
+
   postcss@8.5.2:
     resolution: {integrity: sha512-MjOadfU3Ys9KYoX0AdkBlFEF1Vx37uCCeN4ZHnmwm9FfpbsGWMZeBLMmmpY+6Ocqod7mkdZ0DT31OlbsFrLlkA==}
     engines: {node: ^10 || ^12 || >=14}
@@ -1350,6 +1384,9 @@ packages:
   punycode@2.3.1:
     resolution: {integrity: sha512-vYt7UD1U9Wg6138shLtLOvdAu+8DsC/ilFtEVHcH+wydcSpNE20AfSOduf6MkRFahL5FY7X1oU7nKVZFtfq8Fg==}
     engines: {node: '>=6'}
+
+  quansync@0.2.10:
+    resolution: {integrity: sha512-t41VRkMYbkHyCYmOvx/6URnN80H7k4X0lLdBMGsz+maAwrJQYB1djpV6vHrQIBE0WBSGqhtEHrK9U3DWWH8v7A==}
 
   rc-cascader@3.33.0:
     resolution: {integrity: sha512-JvZrMbKBXIbEDmpIORxqvedY/bck6hGbs3hxdWT8eS9wSQ1P7//lGxbyKjOSyQiVBbgzNWriSe6HoMcZO/+0rQ==}
@@ -1701,6 +1738,9 @@ packages:
     resolution: {integrity: sha512-B71/4oyj61iNH0KeCamLuE2rmKuTO5byTOSVwECM5FA7TiAiAW+UqTKZ9ERueC4qvgSttUhdmq1mXC3kJqGX7A==}
     engines: {node: '>=12.22'}
 
+  tinyexec@0.3.2:
+    resolution: {integrity: sha512-KQQR9yN7R5+OSwaK0XQoj22pwHoTlgYqmUscPYoknOoWCWfj/5/ABTMRi69FrKU5ffPVh5QcFikpWJI/P1ocHA==}
+
   toggle-selection@1.0.6:
     resolution: {integrity: sha512-BiZS+C1OS8g/q2RRbJmy59xpyghNBqrr6k5L/uKBGRsTfxmu3ffiRnd8mlGPUVayg8pvfi5urfnu8TU7DVOkLQ==}
 
@@ -1833,6 +1873,9 @@ packages:
         optional: true
       yaml:
         optional: true
+
+  vitepress-plugin-group-icons@1.3.8:
+    resolution: {integrity: sha512-BIx1HgXEvbDeJX8NqVvthWHQqEW2slj1SkAWLMNoUR5IJq1dq6LmrURYCyznMJCB3/0g+YY89ifvQp3in1fX3g==}
 
   vitepress@1.6.3:
     resolution: {integrity: sha512-fCkfdOk8yRZT8GD9BFqusW3+GggWYZ/rYncOfmgcDtP3ualNHCAg+Robxp2/6xfH1WwPHtGpPwv7mbA3qomtBw==}
@@ -2023,6 +2066,13 @@ snapshots:
       react: 18.3.1
       resize-observer-polyfill: 1.5.1
       throttle-debounce: 5.0.2
+
+  '@antfu/install-pkg@1.0.0':
+    dependencies:
+      package-manager-detector: 0.2.11
+      tinyexec: 0.3.2
+
+  '@antfu/utils@8.1.1': {}
 
   '@babel/helper-string-parser@7.25.9': {}
 
@@ -2251,11 +2301,32 @@ snapshots:
   '@esbuild/win32-x64@0.24.2':
     optional: true
 
+  '@iconify-json/logos@1.2.4':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify-json/simple-icons@1.2.29':
     dependencies:
       '@iconify/types': 2.0.0
 
+  '@iconify-json/vscode-icons@1.2.17':
+    dependencies:
+      '@iconify/types': 2.0.0
+
   '@iconify/types@2.0.0': {}
+
+  '@iconify/utils@2.3.0':
+    dependencies:
+      '@antfu/install-pkg': 1.0.0
+      '@antfu/utils': 8.1.1
+      '@iconify/types': 2.0.0
+      debug: 4.4.0
+      globals: 15.15.0
+      kolorist: 1.8.0
+      local-pkg: 1.1.1
+      mlly: 1.7.4
+    transitivePeerDependencies:
+      - supports-color
 
   '@jridgewell/sourcemap-codec@1.5.0': {}
 
@@ -2885,6 +2956,8 @@ snapshots:
 
   confbox@0.1.8: {}
 
+  confbox@0.2.1: {}
+
   copy-anything@3.0.5:
     dependencies:
       is-what: 4.1.16
@@ -2968,6 +3041,8 @@ snapshots:
       '@esbuild/win32-x64': 0.24.2
 
   estree-walker@2.0.2: {}
+
+  exsolve@1.0.4: {}
 
   fast-deep-equal@3.1.3: {}
 
@@ -3058,6 +3133,12 @@ snapshots:
       mlly: 1.7.4
       pkg-types: 1.3.1
 
+  local-pkg@1.1.1:
+    dependencies:
+      mlly: 1.7.4
+      pkg-types: 2.1.0
+      quansync: 0.2.10
+
   lodash@4.17.21: {}
 
   loose-envify@1.4.0:
@@ -3134,6 +3215,10 @@ snapshots:
       regex: 6.0.1
       regex-recursion: 6.0.2
 
+  package-manager-detector@0.2.11:
+    dependencies:
+      quansync: 0.2.10
+
   path-browserify@1.0.1: {}
 
   path-parse@1.0.7: {}
@@ -3152,6 +3237,12 @@ snapshots:
       mlly: 1.7.4
       pathe: 2.0.3
 
+  pkg-types@2.1.0:
+    dependencies:
+      confbox: 0.2.1
+      exsolve: 1.0.4
+      pathe: 2.0.3
+
   postcss@8.5.2:
     dependencies:
       nanoid: 3.3.8
@@ -3163,6 +3254,8 @@ snapshots:
   property-information@7.0.0: {}
 
   punycode@2.3.1: {}
+
+  quansync@0.2.10: {}
 
   rc-cascader@3.33.0(react-dom@18.3.1(react@18.3.1))(react@18.3.1):
     dependencies:
@@ -3610,6 +3703,8 @@ snapshots:
 
   throttle-debounce@5.0.2: {}
 
+  tinyexec@0.3.2: {}
+
   toggle-selection@1.0.6: {}
 
   trim-lines@3.0.1: {}
@@ -3701,6 +3796,14 @@ snapshots:
       fsevents: 2.3.3
       jiti: 1.21.7
       yaml: 2.7.0
+
+  vitepress-plugin-group-icons@1.3.8:
+    dependencies:
+      '@iconify-json/logos': 1.2.4
+      '@iconify-json/vscode-icons': 1.2.17
+      '@iconify/utils': 2.3.0
+    transitivePeerDependencies:
+      - supports-color
 
   vitepress@1.6.3(@algolia/client-search@5.21.0)(@types/node@22.13.4)(@types/react@18.3.18)(postcss@8.5.2)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(search-insights@2.17.3)(typescript@5.6.3):
     dependencies:

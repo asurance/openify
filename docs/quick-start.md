@@ -22,15 +22,15 @@ $ pnpm add openify
 
 ```tsx
 type OpenableModalProps = OpenParams<void> &
-    Omit<ModalProps, "visible" | "onOk" | "onCancel" | "afterClose">;
+    Omit<ModalProps, "open" | "onOk" | "onCancel" | "afterClose">;
 
 const openableModal = openify<OpenableModalProps>(
-    ({ visible, onClose, afterClose, ...restProps }) => (
+    ({ open, onClose, onUnmount, ...restProps }) => (
         <Modal
-            open={visible}
+            open={open}
             onOk={onClose}
             onCancel={onClose}
-            afterClose={afterClose}
+            afterClose={onUnmount}
             {...restProps}
         />
     ),

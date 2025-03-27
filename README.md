@@ -1,50 +1,65 @@
-# React + TypeScript + Vite
+# Openify
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> 简化 React 弹窗类组件调用的工具
 
-Currently, two official plugins are available:
+## 快速上手
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+### 安装依赖
 
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
-
-- Configure the top-level `parserOptions` property like this:
-
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+```bash
+npm install openify
+# or
+yarn add openify
+# or
+pnpm add openify
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+### `openify`对应弹窗
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+```tsx
+type OpenableModalProps = OpenParams<void> &
+    Omit<ModalProps, "visible" | "onOk" | "onCancel" | "afterClose">;
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+const openableModal = openify<OpenableModalProps>(
+    ({ visible, onClose, afterClose, ...restProps }) => (
+        <Modal
+            open={visible}
+            onOk={onClose}
+            onCancel={onClose}
+            afterClose={afterClose}
+            {...restProps}
+        />
+    ),
+);
 ```
+
+### 准备一个插槽
+
+```tsx
+const App = ({ children }: PropsWithChildren) => {
+    return (
+        <>
+            {children}
+            <Slot id="root" />
+        </>
+    );
+};
+```
+
+### 这样就可以在任意位置使用你的弹窗了
+
+```tsx
+<Button
+    onClick={() =>
+        Slot.getById("root").open(openableModal, {
+            title: "欢迎使用Openify",
+            okText: "确定",
+            cancelText: "取消",
+        })
+    }
+>
+    打开弹窗
+</Button>
+```
+
+## [在线文档](https://asurance.github.io/openify/)

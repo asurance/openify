@@ -20,4 +20,5 @@ features:
     details: 规避React弹窗组件的回调地狱
   - title: 组件隔离
     details: React弹窗崩溃不影响主应用，也不会互相导致不必要的重渲染
+  - title: 代码无侵入
 ---

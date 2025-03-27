@@ -62,11 +62,15 @@ const Slot = ({ id }: PlaceholderProps) => {
             keyRef.current += 1;
             const promise = new Promise<OpenResult<Params>>(
                 (resolve, reject) => {
-                    const clear = () => {
+                    const onUnmount = () => {
                         setInsMap((prev) => {
                             const { [currentKey]: _, ...rest } = prev;
                             return rest;
                         });
+                    };
+                    const onError = (reason: OpenifyError) => {
+                        reject(reason);
+                        onUnmount();
                     };
                     const ins = (
                         <Comp
@@ -74,15 +78,12 @@ const Slot = ({ id }: PlaceholderProps) => {
                             ref={(ref) => {
                                 currentRef.current = ref;
                                 if (ref) {
-                                    ref.onClose = resolve;
-                                    ref.onError = (reason: OpenifyError) => {
-                                        reject(reason);
-                                        clear();
-                                    };
-                                    ref.afterClose = clear;
                                     ref.open(props);
                                 }
                             }}
+                            onClose={resolve}
+                            onError={onError}
+                            onUnmount={onUnmount}
                         />
                     );
                     setInsMap((prev) => ({ ...prev, [currentKey]: ins }));

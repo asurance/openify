@@ -5,20 +5,20 @@
 ::: code-group
 
 ```sh [npm]
-$ npm add -D openify
+$ npm add openify
 ```
 
 ```sh [yarn]
-$ yarn add -D openify
+$ yarn add openify
 ```
 
 ```sh [pnpm]
-$ pnpm add -D openify
+$ pnpm add openify
 ```
 
 :::
 
-## openify对应弹窗
+## `openify`对应弹窗
 
 ```tsx
 type OpenableModalProps = OpenParams<void> &
@@ -65,5 +65,19 @@ const App = ({ children }: PropsWithChildren) => {
     打开弹窗
 </Button>
 ```
-
 ## 效果示意
+
+<div ref="app" />
+
+<script setup>
+import { createElement } from 'react'
+import { createRoot } from 'react-dom/client'
+import { ref, onMounted } from 'vue'
+import { App, Open } from './demos'
+
+const app = ref()
+onMounted(() => {
+  const root = createRoot(app.value)
+  root.render(createElement(App, {}, createElement(Open)))
+})
+</script>

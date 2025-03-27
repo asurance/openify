@@ -1,16 +1,16 @@
 import { type ErrorInfo, PureComponent, type ReactNode } from "react";
 
 export type OpenParams<Result> = {
-    visible: boolean;
+    open: boolean;
     onClose: [Result] extends [undefined]
         ? () => void
         : (result: Result) => void;
-    afterClose: () => void;
+    onUnmount: () => void;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type ExtraParams<Params> = Params extends OpenParams<any>
-    ? Omit<Params, "visible" | "onClose" | "afterClose">
+    ? Omit<Params, "open" | "onClose" | "onUnmount">
     : never;
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -25,8 +25,15 @@ export type PromiseRef<Result> = {
     reject: (reason: OpenifyError) => void;
 };
 
+// biome-ignore lint/suspicious/noExplicitAny: <explanation>
+export type OpenableCompProps<Params extends OpenParams<any>> = {
+    onClose: (result?: OpenResult<Params>) => void;
+    onError: (error: OpenifyError) => void;
+    onUnmount: () => void;
+};
+
 export type OpenableCompState = {
-    visible: boolean;
+    open: boolean;
     hasError: boolean;
 };
 
@@ -35,62 +42,58 @@ export function openify<Params extends OpenParams<any>>(
     fn: (props: Params) => ReactNode,
 ) {
     const openable = class extends PureComponent<
-        Record<string, unknown>,
+        OpenableCompProps<Params>,
         OpenableCompState
     > {
         static getDerivedStateFromError() {
             return {
-                visible: false,
+                open: false,
                 hasError: true,
             };
         }
 
         _currentParams = {} as ExtraParams<Params>;
         _promiseRef: PromiseRef<OpenResult<Params>> | null = null;
-        constructor(props: Record<string, unknown>) {
+        constructor(props: OpenableCompProps<Params>) {
             super(props);
             this.state = {
-                visible: false,
+                open: false,
                 hasError: false,
             };
         }
 
         open = (params?: ExtraParams<Params>) => {
             this._currentParams = params || ({} as ExtraParams<Params>);
-            this.setState((prev) => ({ ...prev, visible: true }));
+            this.setState((prev) => ({ ...prev, open: true }));
         };
 
         close = (result?: OpenResult<Params>) => {
             this._onClose(result);
         };
 
-        onClose: ((result?: OpenResult<Params>) => void) | null = null;
-        onError: ((error: OpenifyError) => void) | null = null;
-        afterClose: (() => void) | null = null;
-
         _onClose = (result?: OpenResult<Params>) => {
-            this.setState((prev) => ({ ...prev, visible: false }));
-            this.onClose?.(result);
+            this.setState((prev) => ({ ...prev, open: false }));
+            this.props.onClose(result);
         };
 
-        _onAfterClose = () => {
-            this.afterClose?.();
+        _onUnmount = () => {
+            this.props.onUnmount();
         };
 
         componentDidCatch(error: Error, errorInfo: ErrorInfo) {
             (error as OpenifyError).info = errorInfo;
-            this.onError?.(error as OpenifyError);
+            this.props.onError(error as OpenifyError);
         }
 
         render() {
-            const { visible, hasError } = this.state;
+            const { open, hasError } = this.state;
             if (hasError) {
                 return null;
             }
             return fn({
-                visible,
+                open,
                 onClose: this._onClose,
-                afterClose: this._onAfterClose,
+                onUnmount: this._onUnmount,
                 ...this._currentParams,
             } as unknown as Params);
         }

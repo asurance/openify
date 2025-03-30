@@ -1,0 +1,39 @@
+name: 发布Github Packages
+
+on:
+  workflow_dispatch:
+
+permissions:
+  id-token: write
+  packages: write
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 完整拉取提交历史
+
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+          registry-url: https://npm.pkg.github.com
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build Package
+        run: pnpm build
+
+      - name: Publish to NPM Registry
+        run: pnpm publish
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}

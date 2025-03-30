@@ -1,5 +1,5 @@
 import { Button, Modal, Space } from "antd";
-import { openify, Slot, type OpenParams } from "openify";
+import { type OpenParams, Slot, openify } from "openify";
 import React, { createContext, useContext } from "react";
 import { slotId } from "./utils";
 

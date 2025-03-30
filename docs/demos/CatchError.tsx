@@ -1,5 +1,5 @@
-import { Button, message, Modal } from "antd";
-import { openify, Slot, type OpenParams } from "openify";
+import { Button, Modal, message } from "antd";
+import { type OpenParams, Slot, openify } from "openify";
 import React, { useState } from "react";
 import { slotId } from "./utils";
 

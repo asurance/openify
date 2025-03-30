@@ -1,6 +1,6 @@
-import React, { type PropsWithChildren } from "react";
-import { openify, Slot, type OpenParams } from "openify";
 import { Button, Modal, type ModalProps } from "antd";
+import { type OpenParams, Slot, openify } from "openify";
+import React, { type PropsWithChildren } from "react";
 
 // region openify
 type OpenableModalProps = OpenParams<void> &

@@ -1,7 +1,7 @@
-import { Button, message, Modal, Space } from "antd";
-import { openify, Slot, type OpenParams } from "openify";
-import { slotId } from "./utils";
+import { Button, Modal, Space, message } from "antd";
+import { type OpenParams, Slot, openify } from "openify";
 import React, { useEffect, useRef, useState } from "react";
+import { slotId } from "./utils";
 
 type RenderSelfProps = {
     open?: boolean;

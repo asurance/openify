@@ -1,5 +1,5 @@
 import { type ReactElement, useLayoutEffect, useRef, useState } from "react";
-import type { ExtraParams, OpenParams, OpenResult, OpenError } from "./openify";
+import type { ExtraParams, OpenError, OpenParams, OpenResult } from "./openify";
 import type { openify } from "./openify";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>

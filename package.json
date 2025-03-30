@@ -3,9 +3,7 @@
     "version": "2.0.0-beta.1",
     "type": "module",
     "main": "./dist/index.umd.cjs",
-    "files": [
-        "dist"
-    ],
+    "files": ["dist"],
     "module": "./dist/index.js",
     "exports": {
         ".": {
@@ -31,7 +29,6 @@
         "@types/react": "^18.3.18",
         "@types/react-dom": "^18.3.5",
         "@vitejs/plugin-react-swc": "^3.8.0",
-        "ahooks": "^3.8.4",
         "antd": "^5.24.1",
         "globals": "^15.15.0",
         "react": "^18.3.1",

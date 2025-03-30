@@ -13,7 +13,7 @@
     },
     "scripts": {
         "dev": "vite",
-        "build": "tsc -b && vite build",
+        "build": "tsc -p tsconfig.back.json && vite build",
         "lint": "biome check --fix",
         "preview": "vite preview",
         "docs:dev": "vitepress dev docs",

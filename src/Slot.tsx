@@ -1,10 +1,5 @@
 import { type ReactElement, useLayoutEffect, useRef, useState } from "react";
-import type {
-    ExtraParams,
-    OpenParams,
-    OpenResult,
-    OpenifyError,
-} from "./openify";
+import type { ExtraParams, OpenParams, OpenResult, OpenError } from "./openify";
 import type { openify } from "./openify";
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
@@ -29,7 +24,7 @@ export type OpenFn<Params extends OpenParams<any>> =
               props: ExtraParams<Params>,
           ) => CancelablePromise<OpenResult<Params>>;
 
-export type PlaceholderProps = {
+export type SlotProps = {
     id: SlotId;
 };
 
@@ -43,7 +38,7 @@ export interface SlotOperation {
 
 const slotMap = new Map<SlotId, SlotOperation>();
 
-const Slot = ({ id }: PlaceholderProps) => {
+const Slot = ({ id }: SlotProps) => {
     const [insMap, setInsMap] = useState<Record<string, ReactElement>>({});
     const keyRef = useRef(0);
 
@@ -64,11 +59,14 @@ const Slot = ({ id }: PlaceholderProps) => {
                 (resolve, reject) => {
                     const onUnmount = () => {
                         setInsMap((prev) => {
+                            if (!(currentKey in prev)) {
+                                return prev;
+                            }
                             const { [currentKey]: _, ...rest } = prev;
                             return rest;
                         });
                     };
-                    const onError = (reason: OpenifyError) => {
+                    const onError = (reason: OpenError) => {
                         reject(reason);
                         onUnmount();
                     };

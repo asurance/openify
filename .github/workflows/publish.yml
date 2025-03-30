@@ -1,51 +1,75 @@
 name: Publish Production
 
 on:
-    workflow_dispatch:
-      inputs:
-        type:
-            description: 发布类型
-            required: true
-            default: patch
-            type: choice
-            options:
-                - patch
-                - minor
-                - major
-        tag:
-            description: 发布标签
-            required: true
-            default: latest
-            type: choice
-            options:
-                - latest
-                - beta
-                - alpha
+  workflow_dispatch:
+    inputs:
+      type:
+        description: 发布类型
+        required: true
+        default: patch
+        type: choice
+        options:
+          - patch
+          - minor
+          - major
+      tag:
+        description: 发布标签
+        required: true
+        default: latest
+        type: choice
+        options:
+          - latest
+          - beta
+          - alpha
 
 jobs:
-    publish:
-        runs-on: ubuntu-latest
+  publish:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Echo
+        run: | 
+          echo type ${{ inputs.type }}
+          echo tag ${{ inputs.tag }}
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0  # 完整拉取提交历史
+          persist-credentials: true  # 保留推送权限
 
-        steps:
-            - name: Echo
-              run: | 
-                echo type ${{ inputs.type }}
-                echo tag ${{ inputs.tag }}
+      - name: Setup PNPM
+        uses: pnpm/action-setup@v4
 
-            - name: Checkout
-              uses: actions/checkout@v4
-      
-            - name: Setup PNPM
-              uses: pnpm/action-setup@v4
-      
-            - name: Setup Node
-              uses: actions/setup-node@v4
-              with:
-                cache: pnpm
-                registry-url: https://registry.npmjs.org/
-      
-            - name: Install dependencies
-              run: pnpm install
-      
-            - name: Build Package
-              run: pnpm build
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: pnpm
+
+      - name: Install Dependencies
+        run: pnpm install
+
+      - name: Build Package
+        run: pnpm build
+
+      - name: Version Management
+        run: |
+          if [ "${{ inputs.tag }}" != "latest" ]; then
+            npm version prerelease --preid ${{ inputs.tag }}
+          else
+            npm version ${{ inputs.type }}
+          fi
+          echo "NEW_VERSION=$(node -p 'require(\"./package.json\").version')" >> $GITHUB_ENV
+
+      - name: Push to Origin
+        run: git push --follow-tags
+
+      - name: Publish to NPM Registry
+        run: pnpm publish --tag ${{ inputs.tag }}
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+
+      - name: Create GitHub Release
+        uses: softprops/action-gh-release@v2
+        with:
+          files: dist/**

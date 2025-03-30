@@ -1,0 +1,30 @@
+import { createElement } from "react";
+import { createRoot } from "react-dom/client";
+import { onMounted, useTemplateRef } from "vue";
+import CustomModalDemo from "../demos/CustomModal";
+import CatchErrorDemo from "../demos/CatchError";
+import GetContextDemo from "../demos/GetContext";
+import CloseOutsideDemo from "../demos/CloseOutside";
+import RenderSelfDemo from "../demos/RenderSelf";
+import App from "./App";
+
+const app = useTemplateRef("app");
+const customModal = useTemplateRef("customModal");
+const catchError = useTemplateRef("catchError");
+const getContext = useTemplateRef("getContext");
+const closeOutside = useTemplateRef("closeOutside");
+const renderSelf = useTemplateRef("renderSelf");
+onMounted(() => {
+    const appRoot = createRoot(app.value);
+    appRoot.render(createElement(App, {}));
+    const customModalRoot = createRoot(customModal.value);
+    customModalRoot.render(createElement(CustomModalDemo, {}));
+    const catchErrorRoot = createRoot(catchError.value);
+    catchErrorRoot.render(createElement(CatchErrorDemo, {}));
+    const getContextRoot = createRoot(getContext.value);
+    getContextRoot.render(createElement(GetContextDemo, {}));
+    const closeOutsideRoot = createRoot(closeOutside.value);
+    closeOutsideRoot.render(createElement(CloseOutsideDemo, {}));
+    const renderSelfRoot = createRoot(renderSelf.value);
+    renderSelfRoot.render(createElement(RenderSelfDemo, {}));
+});

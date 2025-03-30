@@ -18,17 +18,17 @@ export type OpenResult<Params extends OpenParams<any>> = Parameters<
     Params["onClose"]
 >["0"];
 
-export type OpenifyError = Error & { info: ErrorInfo };
+export type OpenError = Error & { info: ErrorInfo };
 
 export type PromiseRef<Result> = {
     resolve: (result: Result) => void;
-    reject: (reason: OpenifyError) => void;
+    reject: (reason: OpenError) => void;
 };
 
 // biome-ignore lint/suspicious/noExplicitAny: <explanation>
 export type OpenableCompProps<Params extends OpenParams<any>> = {
     onClose: (result?: OpenResult<Params>) => void;
-    onError: (error: OpenifyError) => void;
+    onError: (error: OpenError) => void;
     onUnmount: () => void;
 };
 
@@ -81,8 +81,8 @@ export function openify<Params extends OpenParams<any>>(
         };
 
         componentDidCatch(error: Error, errorInfo: ErrorInfo) {
-            (error as OpenifyError).info = errorInfo;
-            this.props.onError(error as OpenifyError);
+            (error as OpenError).info = errorInfo;
+            this.props.onError(error as OpenError);
         }
 
         render() {

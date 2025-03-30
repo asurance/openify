@@ -26,10 +26,10 @@ export default defineConfig({
     },
     themeConfig: {
         sidebar: [
-            { text: "什么是openify", link: "/introduction" },
-            { text: "快速开始", link: "/quick-start" },
-            { text: "更多例子", link: "/examples" },
-            { text: "API", link: "/apis" },
+            { text: "什么是openify", link: "/guides/introduction" },
+            { text: "快速开始", link: "/guides/quick-start" },
+            { text: "更多例子", link: "/guides/examples" },
+            { text: "API", link: "/guides/apis" },
         ],
         socialLinks: [
             { icon: "github", link: "https://github.com/asurance/openify" },

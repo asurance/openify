@@ -1,5 +1,4 @@
 import { Button, Form, Input, Modal, message } from "antd";
-import { useForm } from "antd/es/form/Form";
 import { type OpenParams, Slot, openify } from "openify";
 import React, { useEffect, useState } from "react";
 import { slotId, wait } from "./utils";
@@ -19,7 +18,7 @@ const CustomModal = ({
     onCancel,
     afterClose,
 }: CustomModalProps) => {
-    const [form] = useForm();
+    const [form] = Form.useForm();
     const [loading, setLoading] = useState(false);
     // biome-ignore lint/correctness/useExhaustiveDependencies(form.setFieldValue): <explanation>
     // biome-ignore lint/correctness/useExhaustiveDependencies(id): <explanation>
@@ -68,7 +67,7 @@ const openableCustomModal = openify<OpenableCustomModalParams>(
 );
 
 export default () => {
-    const [form] = useForm();
+    const [form] = Form.useForm();
     return (
         <>
             <Form form={form}>

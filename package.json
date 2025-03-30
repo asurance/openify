@@ -38,5 +38,6 @@
         "vite-plugin-dts": "^4.5.0",
         "vitepress": "^1.6.3",
         "vitepress-plugin-group-icons": "^1.3.8"
-    }
+    },
+    "packageManager": "pnpm@9.1.2"
 }

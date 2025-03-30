@@ -14,41 +14,52 @@ yarn add openify
 pnpm add openify
 ```
 
-### 开发组件，注意实现`visible`, `onClose`, `afterClose`这三个 props
+### `openify`对应弹窗
 
 ```tsx
-type MyModalProps = OpenableProps<xxx> & {
-  /** your props **/
-};
+type OpenableModalProps = OpenParams<void> &
+    Omit<ModalProps, "visible" | "onOk" | "onCancel" | "afterClose">;
 
-const MyModal = ({ visible, onClose, afterClose, ...props }: MyModalProps) => {
-  // your code here
-  return (
-    <Modal
-      visible={visible}
-      onOk={onClose}
-      onCancel={onClose}
-      afterClose={afterClose}
-      // your other props
-    >
-      {/** your content here **/}
-    </Modal>
-  );
+const openableModal = openify<OpenableModalProps>(
+    ({ visible, onClose, afterClose, ...restProps }) => (
+        <Modal
+            open={visible}
+            onOk={onClose}
+            onCancel={onClose}
+            afterClose={afterClose}
+            {...restProps}
+        />
+    ),
+);
+```
+
+### 准备一个插槽
+
+```tsx
+const App = ({ children }: PropsWithChildren) => {
+    return (
+        <>
+            {children}
+            <Slot id="root" />
+        </>
+    );
 };
 ```
 
-### 使用`openify`生成对应的`open`函数
+### 这样就可以在任意位置使用你的弹窗了
 
 ```tsx
-const openMyModal = openify(MyModal);
-```
-
-### 使用`open`方法
-
-```tsx
-function MyApp() {
-  return <Button onClick={() => openMyModal()}>打开弹窗</Button>;
-}
+<Button
+    onClick={() =>
+        Slot.getById("root").open(openableModal, {
+            title: "欢迎使用Openify",
+            okText: "确定",
+            cancelText: "取消",
+        })
+    }
+>
+    打开弹窗
+</Button>
 ```
 
 ## [在线文档](https://asurance.github.io/openify/)

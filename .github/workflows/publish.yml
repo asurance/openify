@@ -57,6 +57,11 @@ jobs:
       - name: Build Package
         run: pnpm build
 
+      - name: Set up Git user
+        run: |  
+          git config --global user.name asurance
+          git config --global user.email 784672616@qq.com
+
       - name: Version Management
         run: |
           if [ "${{ inputs.tag }}" != "latest" ]; then

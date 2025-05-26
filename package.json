@@ -5,7 +5,8 @@
     "main": "./dist/index.umd.cjs",
     "types": "./dist/index.d.ts",
     "files": [
-        "dist"
+        "dist",
+        "LICENSE"
     ],
     "module": "./dist/index.js",
     "exports": {

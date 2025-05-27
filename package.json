@@ -1,10 +1,12 @@
 {
     "name": "openify",
-    "version": "2.0.1",
+    "version": "2.0.2",
     "type": "module",
     "main": "./dist/index.umd.cjs",
     "types": "./dist/index.d.ts",
-    "files": ["dist"],
+    "files": [
+        "dist"
+    ],
     "license": "MIT",
     "module": "./dist/index.js",
     "exports": {

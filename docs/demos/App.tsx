@@ -1,4 +1,4 @@
-import { Button, ConfigProvider } from "antd";
+import { ConfigProvider } from "antd";
 import zhCN from "antd/locale/zh_CN";
 import { Slot } from "openify";
 import React from "react";

@@ -4,10 +4,8 @@
     "type": "module",
     "main": "./dist/index.umd.cjs",
     "types": "./dist/index.d.ts",
-    "files": [
-        "dist",
-        "LICENSE"
-    ],
+    "files": ["dist"],
+    "license": "MIT",
     "module": "./dist/index.js",
     "exports": {
         ".": {

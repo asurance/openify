@@ -76,12 +76,13 @@ const Slot = ({ id }: SlotProps) => {
                             ref={(ref) => {
                                 currentRef.current = ref;
                                 if (ref) {
-                                    ref.open(props);
+                                    ref.open();
                                 }
                             }}
                             onClose={resolve}
                             onError={onError}
                             onUnmount={onUnmount}
+                            openParams={props}
                         />
                     );
                     setInsMap((prev) => ({ ...prev, [currentKey]: ins }));

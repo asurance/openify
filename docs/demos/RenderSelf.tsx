@@ -4,22 +4,21 @@ import React, { useEffect, useRef, useState } from "react";
 import { slotId } from "./utils";
 
 type RenderSelfProps = {
+    id: number;
     open?: boolean;
     onClose?: () => void;
     afterClose?: () => void;
 };
 
-const RenderSelf = ({ open, onClose, afterClose }: RenderSelfProps) => {
-    const [flag, update] = useState({});
+const RenderSelf = ({ id, open, onClose, afterClose }: RenderSelfProps) => {
+    const [_, update] = useState({});
     const initRef = useRef(false);
-    // biome-ignore lint/correctness/useExhaustiveDependencies(flag): <explanation>
-    useEffect(() => {
-        if (initRef.current) {
-            message.info("弹窗渲染");
-        } else {
-            initRef.current = true;
-        }
-    }, [flag]);
+    if (initRef.current) {
+        message.info(`弹窗渲染, 对应ID: ${id}`);
+    } else {
+        initRef.current = true;
+    }
+    console.log(`弹窗渲染, 对应ID: ${id}`);
     const [timeId, setTimeId] = useState<number | null>(null);
     useEffect(() => {
         return () => {
@@ -70,16 +69,13 @@ const openableRenderSelf = openify<OpenableRenderSelfParams>(
 );
 
 export default () => {
-    const [flag, update] = useState({});
+    const [id, setId] = useState(0);
     const initRef = useRef(false);
-    // biome-ignore lint/correctness/useExhaustiveDependencies(flag): <explanation>
-    useEffect(() => {
-        if (initRef.current) {
-            message.info("App渲染");
-        } else {
-            initRef.current = true;
-        }
-    }, [flag]);
+    if (initRef.current) {
+        message.info(`App渲染, 对应ID: ${id}`);
+    } else {
+        initRef.current = true;
+    }
     const [timeId, setTimeId] = useState<number | null>(null);
     useEffect(() => {
         return () => {
@@ -90,12 +86,13 @@ export default () => {
     }, [timeId]);
     return (
         <Space size={12}>
+            {`ID: ${id}`}
             <Button
                 onClick={() => {
                     if (timeId === null) {
                         setTimeId(
                             window.setInterval(() => {
-                                update({});
+                                setId((i) => i + 1);
                             }, 1000),
                         );
                     } else {
@@ -107,7 +104,7 @@ export default () => {
             </Button>
             <Button
                 onClick={async () => {
-                    await Slot.getById(slotId).open(openableRenderSelf);
+                    await Slot.getById(slotId).open(openableRenderSelf, { id });
                 }}
             >
                 打开弹窗

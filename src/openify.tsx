@@ -30,6 +30,7 @@ export type OpenableCompProps<Params extends OpenParams<any>> = {
     onClose: (result?: OpenResult<Params>) => void;
     onError: (error: OpenError) => void;
     onUnmount: () => void;
+    openParams: ExtraParams<Params>;
 };
 
 export type OpenableCompState = {
@@ -52,8 +53,8 @@ export function openify<Params extends OpenParams<any>>(
             };
         }
 
-        _currentParams = {} as ExtraParams<Params>;
         _promiseRef: PromiseRef<OpenResult<Params>> | null = null;
+
         constructor(props: OpenableCompProps<Params>) {
             super(props);
             this.state = {
@@ -62,8 +63,7 @@ export function openify<Params extends OpenParams<any>>(
             };
         }
 
-        open = (params?: ExtraParams<Params>) => {
-            this._currentParams = params || ({} as ExtraParams<Params>);
+        open = () => {
             this.setState((prev) => ({ ...prev, open: true }));
         };
 
@@ -91,10 +91,10 @@ export function openify<Params extends OpenParams<any>>(
                 return null;
             }
             return fn({
+                ...this.props.openParams,
                 open,
                 onClose: this._onClose,
                 onUnmount: this._onUnmount,
-                ...this._currentParams,
             } as unknown as Params);
         }
     };

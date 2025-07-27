@@ -11,6 +11,18 @@ export default defineConfig({
     base: "/openify/",
     lastUpdated: true,
     cleanUrls: true,
+    head: [
+        [
+            "meta",
+            {
+                name: "keywords",
+                content: "openify,react,弹窗,组件,工具",
+            },
+        ],
+    ],
+    sitemap: {
+        hostname: "https://asurance.github.io/openify/",
+    },
     markdown: {
         config(md) {
             // biome-ignore lint/style/noNonNullAssertion: <explanation>

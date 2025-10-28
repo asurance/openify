@@ -19,6 +19,22 @@ export default defineConfig({
                 content: "openify,react,弹窗,组件,工具",
             },
         ],
+        [
+            "script",
+            {
+                async: "",
+                src: "https://www.googletagmanager.com/gtag/js?id=G-G394DY8K0H",
+            },
+        ],
+        [
+            "script",
+            {},
+            `  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'G-G394DY8K0H');`,
+        ],
     ],
     sitemap: {
         hostname: "https://asurance.github.io/openify/",

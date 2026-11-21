@@ -1,3 +1,7 @@
+---
+description: Openify API 文档:openify、Slot、SlotOperation 的参数、返回值与相关类型定义说明。
+---
+
 # API
 
 ## openify

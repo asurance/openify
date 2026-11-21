@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://asurance.github.io/openify/sitemap.xml

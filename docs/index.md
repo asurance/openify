@@ -1,5 +1,7 @@
 ---
 layout: home
+title: 简化 React 弹窗组件调用
+description: Openify 是一个简化 React 弹窗类组件调用的工具,支持全局唤起、Promise 化关闭结果、渲染隔离与异常捕获,仅依赖 React,兼容任意组件库。
 
 hero:
   name: Openify

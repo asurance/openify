@@ -1,3 +1,7 @@
+---
+description: 了解 Openify 是什么:为什么在 React 中通过方法调用打开弹窗,以及它适用的弹窗、抽屉和提示类组件场景。
+---
+
 # 什么是openify
 
 简单的说,`openify` 是一个简化 `React` 弹窗类组件调用的工具

@@ -1,3 +1,7 @@
+---
+description: Openify 使用示例:自定义弹窗、错误捕获、获取 Context、外部关闭以及渲染隔离等常见场景的完整代码。
+---
+
 # 更多例子
 
 <div ref="app"/>

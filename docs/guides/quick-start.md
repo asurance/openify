@@ -1,3 +1,7 @@
+---
+description: Openify 快速开始:安装 openify、用 openify 包装弹窗组件、挂载 Slot 插槽,并在任意位置通过方法打开弹窗。
+---
+
 # 快速开始
 
 ## 安装

@@ -1,0 +1,41 @@
+# Openify
+
+> Openify 是一个简化 React 弹窗类组件调用的工具。它通过 `openify` 与 `Slot` 两个 API,把任意弹窗组件变成可在任意位置调用、并以 Promise 返回关闭结果的全局弹窗。
+
+Openify 仅依赖 React(>= 17),不绑定具体组件库,适用于弹窗、抽屉、确认框、表单等需要"方法调用式"打开的场景。包内置 TypeScript 类型定义,采用 MIT 协议开源。
+
+- npm 包名: `openify`
+- GitHub: https://github.com/asurance/openify
+- License: MIT
+
+## 文档
+
+- [快速开始](https://asurance.github.io/openify/guides/quick-start): 安装 openify、包装弹窗组件、挂载 Slot,并在任意位置打开弹窗的最小可用流程
+- [什么是 Openify](https://asurance.github.io/openify/guides/introduction): 设计背景、解决的问题与适用场景
+- [更多例子](https://asurance.github.io/openify/guides/examples): 自定义弹窗、错误捕获、获取 Context、外部关闭、渲染隔离
+- [API](https://asurance.github.io/openify/guides/apis): `openify`、`Slot`、`SlotOperation` 的参数与返回值
+
+## 核心用法
+
+1. 使用 `openify<Params>(fn)` 包装弹窗,渲染函数会收到 `open`、`onClose`、`onUnmount` 以及其余透传参数
+2. 在宿主应用的合适位置渲染 `<Slot id="root" />`,决定弹窗的渲染位置与可访问的 Context
+3. 通过 `Slot.getById("root").open(OpenableModal, props)` 打开弹窗,`await` 得到关闭结果
+4. 返回的 Promise 带有 `cancel(result?)` 方法,可在外部关闭弹窗
+
+```tsx
+const result = await Slot.getById("root").open(openableModal, {
+    title: "欢迎使用 Openify",
+});
+```
+
+## 关键类型
+
+- `OpenParams<Result>`: 包含 `open: boolean`、`onClose(result)`、`onUnmount()`
+- `CancelablePromise<Result>`: Promise 与 `cancel` 方法的组合
+- `OpenError`: 弹窗内部异常,额外带有 `info: ErrorInfo`
+
+## Optional
+
+- [在线文档首页](https://asurance.github.io/openify/)
+- [GitHub 仓库](https://github.com/asurance/openify)
+- [更新日志](https://github.com/asurance/openify/blob/master/CHANGELOG.md)
